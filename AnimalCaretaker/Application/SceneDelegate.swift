@@ -6,24 +6,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        
-        let tabBarController = UITabBarController()
-        
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        
         let window = UIWindow(windowScene: windowScene)
-        self.window = window
         window.backgroundColor = .white
-        window.rootViewController = tabBarController
-        
-        tabBarController.viewControllers = [ViewController(animalType: .cats), ViewController(animalType: .dogs), FavouritesImagesVC()]
-        
-        let tabbar = tabBarController.tabBar
-        
-        tabbar.items![1].image = UIImage(named: "dogIcon")?.withRenderingMode(.automatic)
-        
-        tabbar.items![0].image = UIImage(named: "catIcon")?.withRenderingMode(.automatic)
-        
-        
+        window.rootViewController = CustomTabBarController()
+        self.window = window
         window.makeKeyAndVisible()
     }
     

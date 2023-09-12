@@ -82,7 +82,7 @@ extension FavouritesImagesVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
 //        let cellImage = favouriteImages[indexPath.row]
-        let cell = AnimalCell()
+//        let cell = AnimalCell(<#UIImage#>)
 //        cell.addImage(cellImage, tableView.frame.width)
         return UITableViewCell()
     }
@@ -93,7 +93,7 @@ extension FavouritesImagesVC: UITableViewDataSource, UITableViewDelegate {
         
         guard let cell = tableView.cellForRow(at: indexPath) as? AnimalCell else { return }
         
-        guard let image = cell.animalView.image else { return }
+//        guard let image = cell.animalView.image else { return }
         let isLiked = cell.isLiked
         
         
@@ -102,7 +102,7 @@ extension FavouritesImagesVC: UITableViewDataSource, UITableViewDelegate {
         
         self.modalPresentationStyle = .fullScreen
         
-        present(OneImageVC(image: image, isLiked: isLiked), animated: false, completion: nil)
+//        present(OneImageVC(image: image, isLiked: isLiked), animated: false, completion: nil)
         
         
         

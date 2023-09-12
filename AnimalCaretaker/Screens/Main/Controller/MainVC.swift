@@ -1,39 +1,28 @@
-import UIKit
-import CoreData
+//
+//  MainVC.swift
+//  AnimalCaretaker
+//
+//  Created by Владимир on 07.09.2023.
+//
 
-class ViewController: UIViewController {
-    
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
-    var tableView = UITableView()
-    
-    var tabBar = UITabBar()
-    
-    var images = [UIImage]()
-    
-    var displayedCell = 0
-    
-    let connector: NetworkConnector
-    
-    var animalType: AnimalTypes
-    
-    
-    
-    init(animalType: AnimalTypes) {
+import UIKit
+
+class MainVC: UIViewController {
         
-        self.animalType = animalType
-        connector = NetworkConnector(animalType)
+    var tableView = UITableView()
+    var tabBar = UITabBar()
+    var images = [UIImage]()
+//    var displayedCell = 0
+    let connector: NetworkManager
+    
+    
+    init() {
+        connector = NetworkManager(.dogs)
         super.init(nibName: nil, bundle: nil)
         
-        switch animalType {
-        case .cats:
-            self.title = "Cats"
-        case .dogs:
-            self.title = "Dogs"
-        }
         
         
-        connector.delegate = self
+//        connector.delegate = self
         configuteUI()
         connector.loadImage()
     }
@@ -48,7 +37,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .black
+        
+        self.view.backgroundColor = .background
         self.navigationController?.isNavigationBarHidden = false
         
     }
@@ -65,25 +55,26 @@ class ViewController: UIViewController {
         tableView.backgroundColor = .black
         tableView.contentMode = .scaleToFill
         tableView.contentSize.height = 0
-        tableView.backgroundColor = .darkGray
+        tableView.backgroundColor = .none
         self.view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -150)
         ])
     }
     
 }
 
-extension ViewController: UITableViewDataSource, UITableViewDelegate {
+
+
+extension MainVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let image = images[indexPath.row]
         let aspectRatio = image.size.width / image.size.height
         let cellHeight = tableView.bounds.width / aspectRatio + 40
-        
         return cellHeight
     }
     
@@ -96,15 +87,15 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cellImage = images[indexPath.row]
-        let cell = AnimalCell()
-        cell.addImage(cellImage, tableView.frame.width)
-        return cell
+//        let cell = AnimalCell(cellImage)
+//        cell.addImage(cellImage, tableView.frame.width)
+        return UITableViewCell()
     }
     
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-        displayedCell = indexPath.row
+//        displayedCell = indexPath.row
         
         if tableView.numberOfRows(inSection: 0) <= indexPath.row + 5 {
             connector.loadImage()
@@ -116,7 +107,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         
         guard let cell = tableView.cellForRow(at: indexPath) as? AnimalCell else { return }
         
-        guard let image = cell.animalView.image else { return }
+//        guard let image = cell.animalView.image else { return }
         let isLiked = cell.isLiked
         
         
@@ -125,7 +116,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         
         self.modalPresentationStyle = .fullScreen
         
-        present(OneImageVC(image: image, isLiked: isLiked), animated: false, completion: nil)
+//        present(OneImageVC(image: image, isLiked: isLiked), animated: false, completion: nil)
         
         
         
@@ -134,7 +125,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 
 
 
-extension ViewController: NetworkProtocol {
+extension MainVC {
     
     func addTableCell(with image: UIImage) {
         images.append(image)

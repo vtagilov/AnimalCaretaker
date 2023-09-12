@@ -1,32 +1,18 @@
+//
+//  API.swift
+//  AnimalCaretaker
+//
+//  Created by Владимир on 08.09.2023.
+//
+
 import Foundation
-import UIKit
 
-
-struct AnimalStruct: Codable {
-    let id: String
-    let url: String
-    let width: Int
-    let height: Int
-}
-
-enum AnimalTypes {
-    case cats
-    case dogs
-}
-
-
-class NetworkConnector {
-    
+struct AnimalAPI {
     var animalType: AnimalTypes!
-    
     var imageURLs = [URL]()
-    
     private let queue = DispatchQueue(label: "FisrtQueue", attributes: .concurrent)
-    
     private let group = DispatchGroup()
-    
     var delegate: NetworkProtocol?
-    
     let semaphore = DispatchSemaphore(value: 0)
     
     
@@ -37,7 +23,7 @@ class NetworkConnector {
     }
     
     
-    func getUrls(_ animalType: AnimalTypes) {        
+    func getUrls(_ animalType: AnimalTypes) {
         let url: URL!
         
         switch animalType {
@@ -98,5 +84,6 @@ class NetworkConnector {
     
     
 }
+
 
 
