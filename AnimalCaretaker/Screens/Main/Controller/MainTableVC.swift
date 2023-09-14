@@ -17,7 +17,7 @@ class MainTableVC: UITableViewController {
         super.viewDidLoad()
         self.tableView.register(AnimalCell.self, forCellReuseIdentifier: "AnimalCell")
         networkManager.delegate = self
-        networkManager.getUrls()
+        networkManager.loadCell()
     }
 
     
@@ -48,14 +48,15 @@ class MainTableVC: UITableViewController {
         return cellHeight
     }
     
-    
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        if tableView.numberOfRows(inSection: 0) <= indexPath.row + 3 {
-            networkManager.getUrls()
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row > 2 {
+            if tableView.numberOfRows(inSection: 0) <= indexPath.row + 1 {
+                    self.networkManager.loadCell()
+                
+            }
         }
     }
-
     
 }
 
@@ -71,7 +72,12 @@ extension MainTableVC: NetworkProtocol {
     }
     
     func loadError(_ error: Error) {
-        print("MainTableVC ERROR: ", error)
+        print("MainTableVC loadError: ", error)
+        if error is CustomError {
+            let error = error as! CustomError
+            print(error.localizedDescription)
+        }
+        networkManager.loadCell()
     }
     
 }

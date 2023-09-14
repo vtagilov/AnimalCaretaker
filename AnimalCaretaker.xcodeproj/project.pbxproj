@@ -24,6 +24,7 @@
 		E73385AC2AAB9B19001B8858 /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73385AB2AAB9B19001B8858 /* NavController.swift */; };
 		E73385AE2AAF4061001B8858 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73385AD2AAF4061001B8858 /* CustomColors.swift */; };
 		E73385B22AAF4EB0001B8858 /* MainTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73385B12AAF4EB0001B8858 /* MainTableVC.swift */; };
+		E73385B42AB06A3E001B8858 /* Erorrs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73385B32AB06A3E001B8858 /* Erorrs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		E73385AB2AAB9B19001B8858 /* NavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavController.swift; sourceTree = "<group>"; };
 		E73385AD2AAF4061001B8858 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
 		E73385B12AAF4EB0001B8858 /* MainTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableVC.swift; sourceTree = "<group>"; };
+		E73385B32AB06A3E001B8858 /* Erorrs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Erorrs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				E733858D2AAA3902001B8858 /* TabBar.swift */,
 				E73385AB2AAB9B19001B8858 /* NavController.swift */,
 				E73385AD2AAF4061001B8858 /* CustomColors.swift */,
+				E73385B32AB06A3E001B8858 /* Erorrs.swift */,
 			);
 			path = UIConstants;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				E73385B22AAF4EB0001B8858 /* MainTableVC.swift in Sources */,
 				E73385992AAA4E1F001B8858 /* ProfileVC.swift in Sources */,
 				E71873D22A3A151300F9C49E /* ViewControllerProtocols.swift in Sources */,
+				E73385B42AB06A3E001B8858 /* Erorrs.swift in Sources */,
 				E733858E2AAA3902001B8858 /* TabBar.swift in Sources */,
 				E73385AC2AAB9B19001B8858 /* NavController.swift in Sources */,
 				E71873D82A435FF100F9C49E /* OneImageVC.swift in Sources */,
