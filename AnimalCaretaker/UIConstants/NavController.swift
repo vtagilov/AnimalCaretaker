@@ -26,8 +26,8 @@ class CustomNavigationController: UINavigationController {
     }
     
     private func configureNavBar() {
-        self.navigationBar.backgroundColor = .none
-        self.navigationBar.barTintColor = .none
+        self.navigationBar.backgroundColor = .background
+        self.navigationBar.barTintColor = .background
         self.navigationBar.alpha = 1.0
         navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationBar.shadowImage = UIImage()
@@ -42,7 +42,6 @@ class CustomNavigationController: UINavigationController {
         backButton.setImage(UIImage(systemName: ""), for: .normal)
         backButton.translatesAutoresizingMaskIntoConstraints = false
         navigationBar.addSubview(backButton)
-        
         
         titleLabel.text = "Anigram"
         titleLabel.font = .boldSystemFont(ofSize: 32)

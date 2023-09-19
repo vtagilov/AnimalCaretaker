@@ -94,11 +94,11 @@ extension FavouritesImagesVC: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.cellForRow(at: indexPath) as? AnimalCell else { return }
         
 //        guard let image = cell.animalView.image else { return }
-        let isLiked = cell.isLiked
+//        let isLiked = cell.isLiked
         
         
         
-        print(indexPath, isLiked)
+//        print(indexPath, isLiked)
         
         self.modalPresentationStyle = .fullScreen
         

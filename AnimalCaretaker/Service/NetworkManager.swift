@@ -41,8 +41,6 @@ class NetworkManager {
     
     
     private func getAnimalModels() {
-        
-        print("getAnimalModels")
         let url = getAnimalModelRequestURL()
         let request = URLRequest(url: url)
         
@@ -80,6 +78,10 @@ class NetworkManager {
             let data = try? Data(contentsOf: url)
             guard let data = data else {
                 self.uploadError(.networkError)
+                return
+            }
+            if let image = UIImage.gif(data: data) {
+                self.uploadAnimalModel(id, image)
                 return
             }
             guard let image = UIImage(data: data) else {

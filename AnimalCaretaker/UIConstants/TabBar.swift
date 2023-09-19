@@ -12,26 +12,23 @@ class CustomTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let navigationController = CustomNavigationController(rootViewController: MainTableVC())
+        let navigationController = CustomNavigationController(rootViewController: MainVC())
         viewControllers = [navigationController, NewImageVC(), ProfileVC()]
-        
         
         configure()
     }
     
     private func configure() {
-        self.tabBar.backgroundColor = .black
-        self.tabBar.barTintColor = .black
+        self.tabBar.backgroundColor = .background
+        self.tabBar.barTintColor = .background
         
         
         tabBar.items![0].image = UIImage(systemName: "newspaper")
         tabBar.items![1].image = UIImage(systemName: "plus.circle")!.withRenderingMode(.automatic)
-        tabBar.items![2].image = UIImage(systemName: "heart")!.withRenderingMode(.automatic)
+        tabBar.items![2].image = UIImage(systemName: "person.crop.circle")!.withRenderingMode(.automatic)
 
-        
         
     }
     
-
 
 }

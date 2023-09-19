@@ -7,25 +7,35 @@ class AnimalCell: UITableViewCell {
     private let animalView = UIImageView()
     private let likeIcon = UIButton()
     private var animalModel: AnimalCellModel!
-    var isLiked: Bool = false
+    
+    var likeManager: LikeManager? {
+        didSet {
+            guard let likeManager = likeManager else { return }
+            if likeManager.isLiked(animalModel) {
+                likeIcon.isSelected = true
+            }
+        }
+    }
+    
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureUI()
-        setConstraints()
     }
     
-
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     
+    
     func configureCell(_ animalModel: AnimalCellModel) {
+        configureUI()
+        setConstraints()
         self.animalView.image = animalModel.image
         self.animalModel = animalModel
+        
     }
     
     
@@ -45,7 +55,6 @@ class AnimalCell: UITableViewCell {
         likeIcon.setImage(UIImage(systemName: "heart"), for: .normal)
         likeIcon.setImage(UIImage(systemName: "heart.fill"), for: .selected)
         likeIcon.addTarget(self, action: #selector(likeImageAction), for: .touchUpInside)
-        likeIcon.isSelected = isLiked
         likeIcon.backgroundColor = .black
         likeIcon.contentMode = .scaleAspectFit
         likeIcon.translatesAutoresizingMaskIntoConstraints = false
@@ -69,15 +78,16 @@ class AnimalCell: UITableViewCell {
     }
     
     
+    
     @objc func likeImageAction() {
         switch likeIcon.isSelected {
         case true:
             likeIcon.isSelected = false
+            likeManager?.removeLike(animalModel)
         case false:
             likeIcon.isSelected = true
+            likeManager?.addLike(animalModel)
         }
     }
-    
-    
     
 }

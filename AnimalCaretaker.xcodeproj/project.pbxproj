@@ -23,8 +23,10 @@
 		E73385AA2AAB08AD001B8858 /* AnimalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73385A92AAB08AD001B8858 /* AnimalModel.swift */; };
 		E73385AC2AAB9B19001B8858 /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73385AB2AAB9B19001B8858 /* NavController.swift */; };
 		E73385AE2AAF4061001B8858 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73385AD2AAF4061001B8858 /* CustomColors.swift */; };
-		E73385B22AAF4EB0001B8858 /* MainTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73385B12AAF4EB0001B8858 /* MainTableVC.swift */; };
 		E73385B42AB06A3E001B8858 /* Erorrs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73385B32AB06A3E001B8858 /* Erorrs.swift */; };
+		E745EE632AB34394008246B7 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745EE622AB34394008246B7 /* MainVC.swift */; };
+		E745EE652AB47562008246B7 /* LikeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745EE642AB47562008246B7 /* LikeManager.swift */; };
+		E745EE682AB476BA008246B7 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E745EE662AB476BA008246B7 /* Model.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,8 +48,10 @@
 		E73385A92AAB08AD001B8858 /* AnimalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalModel.swift; sourceTree = "<group>"; };
 		E73385AB2AAB9B19001B8858 /* NavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavController.swift; sourceTree = "<group>"; };
 		E73385AD2AAF4061001B8858 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
-		E73385B12AAF4EB0001B8858 /* MainTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableVC.swift; sourceTree = "<group>"; };
 		E73385B32AB06A3E001B8858 /* Erorrs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Erorrs.swift; sourceTree = "<group>"; };
+		E745EE622AB34394008246B7 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
+		E745EE642AB47562008246B7 /* LikeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeManager.swift; sourceTree = "<group>"; };
+		E745EE672AB476BA008246B7 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +140,8 @@
 			isa = PBXGroup;
 			children = (
 				E71873CF2A3A149E00F9C49E /* NetworkManager.swift */,
+				E745EE642AB47562008246B7 /* LikeManager.swift */,
+				E745EE662AB476BA008246B7 /* Model.xcdatamodeld */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -218,7 +224,7 @@
 		E73385A02AAA4E6D001B8858 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				E73385B12AAF4EB0001B8858 /* MainTableVC.swift */,
+				E745EE622AB34394008246B7 /* MainVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -342,7 +348,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E71874252A4A03C700F9C49E /* FavouritesImagesVC.swift in Sources */,
-				E73385B22AAF4EB0001B8858 /* MainTableVC.swift in Sources */,
+				E745EE632AB34394008246B7 /* MainVC.swift in Sources */,
+				E745EE652AB47562008246B7 /* LikeManager.swift in Sources */,
 				E73385992AAA4E1F001B8858 /* ProfileVC.swift in Sources */,
 				E71873D22A3A151300F9C49E /* ViewControllerProtocols.swift in Sources */,
 				E73385B42AB06A3E001B8858 /* Erorrs.swift in Sources */,
@@ -356,6 +363,7 @@
 				E71873D42A3F534F00F9C49E /* UIImageGifs.swift in Sources */,
 				E718739E2A39FBC200F9C49E /* SceneDelegate.swift in Sources */,
 				E71873D62A4197CE00F9C49E /* AnimalCell.swift in Sources */,
+				E745EE682AB476BA008246B7 /* Model.xcdatamodeld in Sources */,
 				E73385AA2AAB08AD001B8858 /* AnimalModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -566,6 +574,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E745EE662AB476BA008246B7 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E745EE672AB476BA008246B7 /* Model.xcdatamodel */,
+			);
+			currentVersion = E745EE672AB476BA008246B7 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = E71873902A39FBC200F9C49E /* Project object */;
 }
