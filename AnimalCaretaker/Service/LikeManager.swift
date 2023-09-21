@@ -14,23 +14,35 @@ class LikeManager {
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context: NSManagedObjectContext!
         
-    var models: [(id: String, data: Data)] = []
+    private var models: [(id: String, data: Data)] = []
     
     var likedIds = [String]()
 
     
     init() {
         context = appDelegate.persistentContainer.viewContext
-        getModels()
+        reloadModels()
+    }
+    
+    func getModels() -> [AnimalCellModel] {
+        reloadModels()
+        
+        var cellModels = [AnimalCellModel]()
+        for model in models {
+            let image = UIImage(data: model.data)!
+            cellModels.append(AnimalCellModel(id: model.id, image: image))
+        }
+        return cellModels
     }
     
     
     
-    func getModels() {
+    private func reloadModels() {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Entity")
         do {
             let result = try context.fetch(fetchRequest)
             if let entities = result as? [NSManagedObject] {
+                models = []
                 for entity in entities {
                     if let id = entity.value(forKey: "id") as? String,
                        let imageData = entity.value(forKey: "imageData") as? Data {

@@ -27,12 +27,12 @@ class MainVC: UIViewController {
     
     
     private func configureUI() {
-        self.view.backgroundColor = .background
-        self.tableView.register(AnimalCell.self, forCellReuseIdentifier: "AnimalCell")
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(tableView)
+        view.backgroundColor = .background
+        tableView.register(AnimalCell.self, forCellReuseIdentifier: "AnimalCell")
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
     }
     
     
@@ -47,9 +47,11 @@ class MainVC: UIViewController {
 
 }
 
+
+
+// MARK: - UITableView DataSource and Delegate
 extension MainVC: UITableViewDataSource, UITableViewDelegate {
-    // MARK: - Table view data source
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return animalModels.count
     }
@@ -102,6 +104,7 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
 
 
 
+// MARK: - NetworkProtocol
 extension MainVC: NetworkProtocol {
     
     func addAnimalModel(_ animalModel: AnimalCellModel) {

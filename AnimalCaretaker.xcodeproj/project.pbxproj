@@ -27,6 +27,10 @@
 		E745EE632AB34394008246B7 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745EE622AB34394008246B7 /* MainVC.swift */; };
 		E745EE652AB47562008246B7 /* LikeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E745EE642AB47562008246B7 /* LikeManager.swift */; };
 		E745EE682AB476BA008246B7 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E745EE662AB476BA008246B7 /* Model.xcdatamodeld */; };
+		E7F8ADA62AB9E0C900FF9148 /* ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8ADA52AB9E0C900FF9148 /* ProfileManager.swift */; };
+		E7F8ADA82ABB72F400FF9148 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8ADA72ABB72F400FF9148 /* TextField.swift */; };
+		E7F8ADAA2ABB745100FF9148 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8ADA92ABB745100FF9148 /* ImageView.swift */; };
+		E7F8ADAC2ABB78F000FF9148 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8ADAB2ABB78F000FF9148 /* ProfileInfoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +56,10 @@
 		E745EE622AB34394008246B7 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		E745EE642AB47562008246B7 /* LikeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeManager.swift; sourceTree = "<group>"; };
 		E745EE672AB476BA008246B7 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		E7F8ADA52AB9E0C900FF9148 /* ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManager.swift; sourceTree = "<group>"; };
+		E7F8ADA72ABB72F400FF9148 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
+		E7F8ADA92ABB745100FF9148 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		E7F8ADAB2ABB78F000FF9148 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +131,8 @@
 				E73385AB2AAB9B19001B8858 /* NavController.swift */,
 				E73385AD2AAF4061001B8858 /* CustomColors.swift */,
 				E73385B32AB06A3E001B8858 /* Erorrs.swift */,
+				E7F8ADA72ABB72F400FF9148 /* TextField.swift */,
+				E7F8ADA92ABB745100FF9148 /* ImageView.swift */,
 			);
 			path = UIConstants;
 			sourceTree = "<group>";
@@ -179,6 +189,7 @@
 		E733859A2AAA4E2F001B8858 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E7F8ADAB2ABB78F000FF9148 /* ProfileInfoView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -195,6 +206,7 @@
 		E733859C2AAA4E3D001B8858 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E7F8ADA52AB9E0C900FF9148 /* ProfileManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -350,6 +362,7 @@
 				E71874252A4A03C700F9C49E /* FavouritesImagesVC.swift in Sources */,
 				E745EE632AB34394008246B7 /* MainVC.swift in Sources */,
 				E745EE652AB47562008246B7 /* LikeManager.swift in Sources */,
+				E7F8ADA82ABB72F400FF9148 /* TextField.swift in Sources */,
 				E73385992AAA4E1F001B8858 /* ProfileVC.swift in Sources */,
 				E71873D22A3A151300F9C49E /* ViewControllerProtocols.swift in Sources */,
 				E73385B42AB06A3E001B8858 /* Erorrs.swift in Sources */,
@@ -358,13 +371,16 @@
 				E71873D82A435FF100F9C49E /* OneImageVC.swift in Sources */,
 				E718739C2A39FBC200F9C49E /* AppDelegate.swift in Sources */,
 				E73385942AAA4DC7001B8858 /* NewImageVC.swift in Sources */,
+				E7F8ADAA2ABB745100FF9148 /* ImageView.swift in Sources */,
 				E73385AE2AAF4061001B8858 /* CustomColors.swift in Sources */,
+				E7F8ADAC2ABB78F000FF9148 /* ProfileInfoView.swift in Sources */,
 				E71873D02A3A149E00F9C49E /* NetworkManager.swift in Sources */,
 				E71873D42A3F534F00F9C49E /* UIImageGifs.swift in Sources */,
 				E718739E2A39FBC200F9C49E /* SceneDelegate.swift in Sources */,
 				E71873D62A4197CE00F9C49E /* AnimalCell.swift in Sources */,
 				E745EE682AB476BA008246B7 /* Model.xcdatamodeld in Sources */,
 				E73385AA2AAB08AD001B8858 /* AnimalModel.swift in Sources */,
+				E7F8ADA62AB9E0C900FF9148 /* ProfileManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
