@@ -28,6 +28,10 @@ class MainVC: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .background
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(tableViewRefreshControl), for: .valueChanged)
+        tableView.refreshControl = refreshControl
+        
         tableView.register(AnimalCell.self, forCellReuseIdentifier: "AnimalCell")
         tableView.delegate = self
         tableView.dataSource = self
@@ -43,6 +47,13 @@ class MainVC: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    
+    @objc private func tableViewRefreshControl() {
+        animalModels = []
+        networkManager.loadCell()
+        self.tableView.refreshControl?.endRefreshing()
     }
 
 }
@@ -94,8 +105,8 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let animaModel = animalModels[indexPath.row]
-        let oneImageVC = OneImageVC(animaModel)
+        let animalModel = animalModels[indexPath.row]
+        let oneImageVC = OneImageVC(animalModel)
         self.navigationController?.pushViewController(oneImageVC, animated: true)
         self.navigationController?.isNavigationBarHidden = false
     }

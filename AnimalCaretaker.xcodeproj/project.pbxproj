@@ -31,6 +31,9 @@
 		E7F8ADA82ABB72F400FF9148 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8ADA72ABB72F400FF9148 /* TextField.swift */; };
 		E7F8ADAA2ABB745100FF9148 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8ADA92ABB745100FF9148 /* ImageView.swift */; };
 		E7F8ADAC2ABB78F000FF9148 /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8ADAB2ABB78F000FF9148 /* ProfileInfoView.swift */; };
+		E7F8ADAE2ABCCE2600FF9148 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8ADAD2ABCCE2600FF9148 /* Label.swift */; };
+		E7F8ADB02ABCCF4300FF9148 /* SegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8ADAF2ABCCF4300FF9148 /* SegmentControl.swift */; };
+		E7F8ADB22ABCD0F200FF9148 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F8ADB12ABCD0F200FF9148 /* TableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +63,9 @@
 		E7F8ADA72ABB72F400FF9148 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		E7F8ADA92ABB745100FF9148 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		E7F8ADAB2ABB78F000FF9148 /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
+		E7F8ADAD2ABCCE2600FF9148 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
+		E7F8ADAF2ABCCF4300FF9148 /* SegmentControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControl.swift; sourceTree = "<group>"; };
+		E7F8ADB12ABCD0F200FF9148 /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +139,9 @@
 				E73385B32AB06A3E001B8858 /* Erorrs.swift */,
 				E7F8ADA72ABB72F400FF9148 /* TextField.swift */,
 				E7F8ADA92ABB745100FF9148 /* ImageView.swift */,
+				E7F8ADAD2ABCCE2600FF9148 /* Label.swift */,
+				E7F8ADAF2ABCCF4300FF9148 /* SegmentControl.swift */,
+				E7F8ADB12ABCD0F200FF9148 /* TableView.swift */,
 			);
 			path = UIConstants;
 			sourceTree = "<group>";
@@ -365,11 +374,14 @@
 				E7F8ADA82ABB72F400FF9148 /* TextField.swift in Sources */,
 				E73385992AAA4E1F001B8858 /* ProfileVC.swift in Sources */,
 				E71873D22A3A151300F9C49E /* ViewControllerProtocols.swift in Sources */,
+				E7F8ADB22ABCD0F200FF9148 /* TableView.swift in Sources */,
 				E73385B42AB06A3E001B8858 /* Erorrs.swift in Sources */,
 				E733858E2AAA3902001B8858 /* TabBar.swift in Sources */,
 				E73385AC2AAB9B19001B8858 /* NavController.swift in Sources */,
 				E71873D82A435FF100F9C49E /* OneImageVC.swift in Sources */,
 				E718739C2A39FBC200F9C49E /* AppDelegate.swift in Sources */,
+				E7F8ADB02ABCCF4300FF9148 /* SegmentControl.swift in Sources */,
+				E7F8ADAE2ABCCE2600FF9148 /* Label.swift in Sources */,
 				E73385942AAA4DC7001B8858 /* NewImageVC.swift in Sources */,
 				E7F8ADAA2ABB745100FF9148 /* ImageView.swift in Sources */,
 				E73385AE2AAF4061001B8858 /* CustomColors.swift in Sources */,

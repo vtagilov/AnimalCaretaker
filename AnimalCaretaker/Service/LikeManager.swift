@@ -11,13 +11,14 @@ import UIKit
 
 
 class LikeManager {
+    
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context: NSManagedObjectContext!
         
-    private var models: [(id: String, data: Data)] = []
+    private var savedModels: [(id: String, data: Data)] = []
     
     var likedIds = [String]()
-
+    
     
     init() {
         context = appDelegate.persistentContainer.viewContext
@@ -28,7 +29,7 @@ class LikeManager {
         reloadModels()
         
         var cellModels = [AnimalCellModel]()
-        for model in models {
+        for model in savedModels {
             let image = UIImage(data: model.data)!
             cellModels.append(AnimalCellModel(id: model.id, image: image))
         }
@@ -42,11 +43,11 @@ class LikeManager {
         do {
             let result = try context.fetch(fetchRequest)
             if let entities = result as? [NSManagedObject] {
-                models = []
+                savedModels = []
                 for entity in entities {
                     if let id = entity.value(forKey: "id") as? String,
                        let imageData = entity.value(forKey: "imageData") as? Data {
-                        models.append((id, imageData))
+                        savedModels.append((id, imageData))
                         likedIds.append(id)
                     }
                 }

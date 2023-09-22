@@ -8,13 +8,16 @@
 import UIKit
 
 protocol ProfileInfoViewDelegate {
-    func preesntTextFieldAlert(_ alert: UIAlertController)
+    func presentTextFieldAlert(_ alert: UIAlertController)
 }
 
 
 
 class ProfileInfoView: UIView {
     
+    var lastName: String?
+    
+    let likeManager = LikeManager()
     let profileManager = ProfileManager()
     
     var delegate: ProfileInfoViewDelegate?
@@ -28,19 +31,29 @@ class ProfileInfoView: UIView {
     init(delegate: ProfileInfoViewDelegate? = nil) {
         super.init(frame: .null)
         self.delegate = delegate
-        
         configureUI()
         configureConstrainst()
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     
+    func updateCounterLabels() {
+        likeCounterLabel.text = "Liked posts\n" + String(likeManager.getModels().count)
+        postsCounterLabel.text = "Posts\n" + String(0)
+    }
+    
+    
     
     private func configureUI() {
         self.translatesAutoresizingMaskIntoConstraints = false
+        
+        likeCounterLabel.makeCounerLabel()
+        postsCounterLabel.makeCounerLabel()
+        updateCounterLabels()
         
         nickTextField.makeProfileNameField(32)
         nickTextField.delegate = self
@@ -53,6 +66,8 @@ class ProfileInfoView: UIView {
     private func configureConstrainst() {
         self.addSubview(profileImageView)
         self.addSubview(nickTextField)
+        self.addSubview(postsCounterLabel)
+        self.addSubview(likeCounterLabel)
         
         NSLayoutConstraint.activate([
             profileImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 25),
@@ -63,7 +78,17 @@ class ProfileInfoView: UIView {
             nickTextField.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 25),
             nickTextField.rightAnchor.constraint(equalTo: rightAnchor),
             nickTextField.topAnchor.constraint(equalTo: profileImageView.topAnchor),
-            nickTextField.bottomAnchor.constraint(equalTo: profileImageView.bottomAnchor)
+            nickTextField.bottomAnchor.constraint(equalTo: profileImageView.centerYAnchor),
+            
+            postsCounterLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor),
+            postsCounterLabel.rightAnchor.constraint(equalTo: nickTextField.centerXAnchor),
+            postsCounterLabel.topAnchor.constraint(equalTo: profileImageView.centerYAnchor),
+            postsCounterLabel.bottomAnchor.constraint(equalTo: profileImageView.bottomAnchor),
+
+            likeCounterLabel.leftAnchor.constraint(equalTo: postsCounterLabel.rightAnchor),
+            likeCounterLabel.rightAnchor.constraint(equalTo: rightAnchor),
+            likeCounterLabel.topAnchor.constraint(equalTo: profileImageView.centerYAnchor),
+            likeCounterLabel.bottomAnchor.constraint(equalTo: profileImageView.bottomAnchor)
         ])
     }
     
@@ -79,6 +104,7 @@ extension ProfileInfoView: UITextFieldDelegate {
         if textField.text! == "" {
             textFieldAlert()
         } else {
+            lastName = textField.text!
             profileManager.saveName(textField.text!)
         }
     }
@@ -91,10 +117,11 @@ extension ProfileInfoView: UITextFieldDelegate {
     
     
     private func textFieldAlert() {
+        nickTextField.text = lastName
         let alert = UIAlertController(title: "Enter your nickname", message: "Nickname must constains some letters", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
         alert.addAction(okAction)
-        delegate?.preesntTextFieldAlert(alert)
+        delegate?.presentTextFieldAlert(alert)
     }
     
 }

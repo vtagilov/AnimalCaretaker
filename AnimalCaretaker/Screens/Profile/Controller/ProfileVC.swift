@@ -20,30 +20,35 @@ class ProfileVC: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        animalLikedModels = likeManager.getModels()
-        print("viewWillAppear, count: ", animalLikedModels.count)
+        let models = likeManager.getModels()
+        animalLikedModels = models
+        profileInfo.likeCounterLabel.text = "Liked posts\n" + String(models.count)
         tableView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        profileInfo.delegate = self
         view.backgroundColor = .background
         configureUI()
         configureConstrainst()
         setUIResponder()
+        
     }
     
 
     
     private func configureUI() {
-        segmentControl.insertSegment(withTitle: "My Post", at: 0, animated: true)
-        segmentControl.insertSegment(withTitle: "Liked", at: 1, animated: true)
-        segmentControl.selectedSegmentIndex = 0
+        segmentControl.makeProfileControl()
         segmentControl.addTarget(self, action: #selector(reloadTableViewData), for: .valueChanged)
-        segmentControl.translatesAutoresizingMaskIntoConstraints = false
         
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(tableViewRefreshControl), for: .valueChanged)
+        tableView.refreshControl = refreshControl
         tableView.register(AnimalCell.self, forCellReuseIdentifier: "AnimalCell")
+        tableView.isUserInteractionEnabled = true
+        tableView.allowsSelection = true
+
         tableView.dataSource = self
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -79,6 +84,14 @@ class ProfileVC: UIViewController {
         tableView.reloadData()
     }
     
+    
+    @objc private func tableViewRefreshControl() {
+        self.animalLikedModels = self.likeManager.getModels()
+        self.tableView.reloadData()
+        self.profileInfo.updateCounterLabels()
+        self.tableView.refreshControl?.endRefreshing()
+    }
+    
 }
 
 
@@ -112,11 +125,21 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("didSelectRowAt")
+    }
+
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        print("didSelectRowAt")
+//        let animalModel = [animalPostedModels, animalLikedModels][segmentControl.selectedSegmentIndex][indexPath.row]
+//
+//        let oneImageVC = OneImageVC(animalModel)
+//        self.navigationController?.pushViewController(oneImageVC, animated: true)
+//        self.navigationController?.isNavigationBarHidden = false
+//    }
     
 }
-
-
-
 
 
 
@@ -136,9 +159,9 @@ extension ProfileVC {
 
 
 
-
+// MARK: - ProfileInfoViewDelegate
 extension ProfileVC: ProfileInfoViewDelegate {
-    func preesntTextFieldAlert(_ alert: UIAlertController) {
+    func presentTextFieldAlert(_ alert: UIAlertController) {
         present(alert, animated: true)
     }
 }
