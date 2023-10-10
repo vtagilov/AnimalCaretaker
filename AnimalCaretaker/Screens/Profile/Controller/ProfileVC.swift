@@ -104,7 +104,7 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
     
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let models = [animalPostedModels, animalLikedModels][segmentControl.selectedSegmentIndex]
+        let models = [animalPostedModels, animalLikedModels][segmentControl.selectedSegmentIndex]        
         let image = models[indexPath.row].image
         let aspectRatio = image.size.width / image.size.height
         let cellHeight = tableView.bounds.width / aspectRatio + 40

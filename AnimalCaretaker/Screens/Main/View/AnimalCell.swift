@@ -80,12 +80,11 @@ class AnimalCell: UITableViewCell {
     
     
     @objc func likeImageAction() {
+        likeIcon.isSelected = !likeIcon.isSelected
         switch likeIcon.isSelected {
         case true:
-            likeIcon.isSelected = false
             likeManager?.removeLike(animalModel)
         case false:
-            likeIcon.isSelected = true
             likeManager?.addLike(animalModel)
         }
     }

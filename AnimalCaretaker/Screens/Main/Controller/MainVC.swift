@@ -52,6 +52,7 @@ class MainVC: UIViewController {
     
     @objc private func tableViewRefreshControl() {
         animalModels = []
+        tableView.reloadData()
         networkManager.loadCell()
         self.tableView.refreshControl?.endRefreshing()
     }
