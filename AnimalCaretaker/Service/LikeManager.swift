@@ -72,7 +72,6 @@ class LikeManager {
             do {
                 try context.save()
                 likedIds.append(model.id)
-                print("Данные успешно сохранены.")
             } catch {
                 print("Ошибка при сохранении данных: \(error)")
             }
@@ -92,7 +91,6 @@ class LikeManager {
                 do {
                     try context.save()
                     likedIds.removeAll(where: { $0 == model.id })
-                    print("Объекты успешно удалены.")
                 } catch {
                     print("Ошибка при сохранении после удаления: \(error)")
                 }

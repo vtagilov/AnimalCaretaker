@@ -45,6 +45,7 @@ class PullDownButton: UIView {
             buttonAction()
         }
         
+        button.setTitleColor(.lightGray, for: .normal)
         button.setTitleColor(.darkGray, for: .highlighted)
         button.setTitle("Dogs", for: .normal)
         button.titleLabel?.textAlignment = .right

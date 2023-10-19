@@ -114,8 +114,11 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let animalModel = animalModels[indexPath.row]
         let oneImageVC = OneImageVC(animalModel)
+        UIView.animate(withDuration: 0.2) {
+            tableView.alpha = 0.0
+
+        }
         self.navigationController?.pushViewController(oneImageVC, animated: true)
-        self.navigationController?.isNavigationBarHidden = false
     }
 }
 
@@ -123,7 +126,6 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
 // MARK: - AnimalCellDelegate
 extension MainVC: AnimalCellDelegate {
     func likeImageAction(_ model: AnimalCellModel) {
-        print("likeImageAction")
         if likeManager.isLiked(model) {
             likeManager.removeLike(model)
         } else {

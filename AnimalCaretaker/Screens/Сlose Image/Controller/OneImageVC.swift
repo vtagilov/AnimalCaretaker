@@ -48,7 +48,6 @@ class OneImageVC: UIViewController {
     
     
     @objc func likeImageAction() {
-        print("likeImageAction")
         switch likeIcon.isSelected {
         case true:
             likeIcon.isSelected = false

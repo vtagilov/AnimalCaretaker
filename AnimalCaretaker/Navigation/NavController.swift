@@ -9,51 +9,56 @@ import UIKit
 
 class CustomNavigationController: UINavigationController {
 
-    let backButton = UIBarButtonItem()
+    var backButton = UIBarButtonItem()
     let titleLabel = UILabel()
     var selectionButton: PullDownButton!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavBar()
         configureUI()
         configureConstarints()
     }
     
     
-//    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-//        super.pushViewController(viewController, animated: animated)
-//        backButton.isHidden = false
-//    }
-    
-    
-    private func configureNavBar() {
-        
-//        self.navigationBar.backgroundColor = .background
-//        self.navigationBar.barTintColor = .background
-        self.navigationBar.alpha = 1.0
-        navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationBar.shadowImage = UIImage()
-        navigationBar.isTranslucent = true
-        navigationBar.alpha = 1.0
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        super.pushViewController(viewController, animated: true)
+        self.navigationBar.topItem?.backBarButtonItem = backButton
+        navigationBar.topItem?.setLeftBarButton(backButton, animated: true)
+        navigationBar.topItem?.leftBarButtonItem?.tintColor = .white
+        viewController.navigationController?.isNavigationBarHidden = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            UIView.animate(withDuration: 0.3) {
+                viewController.navigationController?.isNavigationBarHidden = false
+            }
+            
+        })
     }
     
     
+    override func popViewController(animated: Bool) -> UIViewController? {
+        if viewControllers.first is ProfileVC {
+            let vc = viewControllers.first as! ProfileVC
+            UIView.animate(withDuration: 0.3) {
+                vc.segmentControl.alpha = 1.0
+                vc.profileInfo.alpha = 1.0
+                vc.tableView.alpha = 1.0
+            }
+            self.isNavigationBarHidden = true
+        }
+        if viewControllers.first is MainVC {
+            let vc = viewControllers.first as! MainVC
+            UIView.animate(withDuration: 0.3) {
+                vc.tableView.alpha = 1.0
+            }
+        }
+        return super.popViewController(animated: animated)
+    }
+    
+    
+    
     private func configureUI() {
-//        backButton.addTarget(self, action: #selector(backButtonWasTapped), for: .touchUpInside)
-//        backButton.isHidden = true
-//        backButton.setImage(UIImage(systemName: ""), for: .normal)
-//        backButton.translatesAutoresizingMaskIntoConstraints = false
-//        backButton.title = "asd"
-//        print(self.navigationBar.backItem)
-//        self.navigationItem.backBarButtonItem = backButton
-//        navigationBar.addSubview(backButton)
-
-        let customBackButton = UIBarButtonItem(title: "asd", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem = customBackButton
-        navigationBar.backItem?.setLeftBarButton(customBackButton, animated: true)
-        
+        backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         
         titleLabel.textAlignment = .left
         titleLabel.text = "gram"
@@ -61,22 +66,14 @@ class CustomNavigationController: UINavigationController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         navigationBar.addSubview(titleLabel)
         
-        selectionButton = PullDownButton({
-            print("asdasdad")
-        })
+        selectionButton = PullDownButton({})
         selectionButton.configureButton()
         navigationBar.addSubview(selectionButton)
-        
     }
 
 
     private func configureConstarints() {
         NSLayoutConstraint.activate([
-//            backButton.leftAnchor.constraint(equalTo: self.navigationBar.leftAnchor),
-//            backButton.widthAnchor.constraint(equalToConstant: 50),
-//            backButton.topAnchor.constraint(equalTo: self.navigationBar.topAnchor),
-//            backButton.heightAnchor.constraint(equalToConstant: 50),
-            
             titleLabel.leftAnchor.constraint(equalTo: navigationBar.centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: navigationBar.topAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor),
@@ -87,16 +84,4 @@ class CustomNavigationController: UINavigationController {
         ])
     }
     
-    
-    
-    @objc private func backButtonWasTapped() {
-        self.popViewController(animated: true)
-        print("backButtonWasTapped")
-        if self.viewControllers.count == 1 {
-//            backButton.isHidden = true
-        }
-        
-    }
-    
-
 }

@@ -12,7 +12,7 @@ class CustomTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let navigationController = CustomNavigationController(rootViewController: MainVC())
-        viewControllers = [navigationController, NewImageVC(), ProfileVC()]
+        viewControllers = [navigationController, NewImageVC(), CustomNavigationController(rootViewController: ProfileVC())]
         configure()
         
 

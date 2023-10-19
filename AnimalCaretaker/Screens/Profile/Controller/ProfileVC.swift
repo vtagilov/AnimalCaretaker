@@ -28,11 +28,12 @@ class ProfileVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.isNavigationBarHidden = true
         profileInfo.delegate = self
 //        view.backgroundColor = .background
         configureUI()
         configureConstrainst()
-        setUIResponder()
+//        setUIResponder()
         
     }
     
@@ -46,8 +47,6 @@ class ProfileVC: UIViewController {
         refreshControl.addTarget(self, action: #selector(tableViewRefreshControl), for: .valueChanged)
         tableView.refreshControl = refreshControl
         tableView.register(AnimalCell.self, forCellReuseIdentifier: "AnimalCell")
-        tableView.isUserInteractionEnabled = true
-        tableView.allowsSelection = true
 
         tableView.dataSource = self
         tableView.delegate = self
@@ -104,8 +103,9 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
     
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let models = [animalPostedModels, animalLikedModels][segmentControl.selectedSegmentIndex]        
-        let image = models[indexPath.row].image
+        let models = [animalPostedModels, animalLikedModels][segmentControl.selectedSegmentIndex]
+        let model = models[animalLikedModels.count - indexPath.row - 1]
+        let image = model.image
         let aspectRatio = image.size.width / image.size.height
         let cellHeight = tableView.bounds.width / aspectRatio + 40
         return cellHeight
@@ -115,9 +115,12 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "AnimalCell", for: indexPath) as? AnimalCell {
             if segmentControl.selectedSegmentIndex == 1 {
-                cell.configureCell(animalLikedModels[animalLikedModels.count - indexPath.row - 1])
+                let animalModel = animalLikedModels[animalLikedModels.count - indexPath.row - 1]
+                cell.configureCell(animalModel)
+                cell.setLikeProperty(likeManager.isLiked(animalModel))
+                cell.delegate = self
+                return cell
             }
-//            cell.likeManager = self.likeManager
             return cell
         }
         
@@ -126,18 +129,23 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("didSelectRowAt")
-    }
+        let animalModel = [animalPostedModels, animalLikedModels][segmentControl.selectedSegmentIndex][animalLikedModels.count - indexPath.row - 1]
 
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print("didSelectRowAt")
-//        let animalModel = [animalPostedModels, animalLikedModels][segmentControl.selectedSegmentIndex][indexPath.row]
-//
-//        let oneImageVC = OneImageVC(animalModel)
-//        self.navigationController?.pushViewController(oneImageVC, animated: true)
-//        self.navigationController?.isNavigationBarHidden = false
-//    }
+        let oneImageVC = OneImageVC(animalModel)
+        UIView.animate(withDuration: 0.2) {
+            self.segmentControl.alpha = 0.0
+            self.profileInfo.alpha = 0.0
+            tableView.alpha = 0.0
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+//                self.segmentControl.alpha = 1.0
+//                self.profileInfo.alpha = 1.0
+//                tableView.alpha = 1.0
+//            }
+        }
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.pushViewController(oneImageVC, animated: true)
+        
+    }
     
 }
 
@@ -156,6 +164,18 @@ extension ProfileVC {
     }
 }
 
+
+
+// MARK: - AnimalCellDelegate
+extension ProfileVC: AnimalCellDelegate {
+    func likeImageAction(_ model: AnimalCellModel) {
+        if likeManager.isLiked(model) {
+            likeManager.removeLike(model)
+        } else {
+            likeManager.addLike(model)
+        }
+    }
+}
 
 
 
