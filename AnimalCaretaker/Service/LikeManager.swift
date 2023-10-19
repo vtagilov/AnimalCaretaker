@@ -14,10 +14,9 @@ class LikeManager {
     
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context: NSManagedObjectContext!
-        
     private var savedModels: [(id: String, data: Data)] = []
-    
     var likedIds = [String]()
+    
     
     
     init() {
@@ -25,9 +24,9 @@ class LikeManager {
         reloadModels()
     }
     
+    
     func getModels() -> [AnimalCellModel] {
         reloadModels()
-        
         var cellModels = [AnimalCellModel]()
         for model in savedModels {
             let image = UIImage(data: model.data)!
@@ -62,10 +61,7 @@ class LikeManager {
     
     
     func isLiked(_ model: AnimalCellModel) -> Bool {
-        if likedIds.contains(model.id) {
-            return true
-        }
-        return false
+        likedIds.contains(model.id)
     }
     
     func addLike(_ model: AnimalCellModel) {
@@ -75,6 +71,7 @@ class LikeManager {
             object.setValue(model.image.pngData(), forKey: "imageData")
             do {
                 try context.save()
+                likedIds.append(model.id)
                 print("Данные успешно сохранены.")
             } catch {
                 print("Ошибка при сохранении данных: \(error)")
@@ -94,6 +91,7 @@ class LikeManager {
                 }
                 do {
                     try context.save()
+                    likedIds.removeAll(where: { $0 == model.id })
                     print("Объекты успешно удалены.")
                 } catch {
                     print("Ошибка при сохранении после удаления: \(error)")

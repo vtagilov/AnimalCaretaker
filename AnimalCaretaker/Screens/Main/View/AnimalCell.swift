@@ -8,15 +8,7 @@ class AnimalCell: UITableViewCell {
     private let likeIcon = UIButton()
     private var animalModel: AnimalCellModel!
     
-    var likeManager: LikeManager? {
-        didSet {
-            guard let likeManager = likeManager else { return }
-            if likeManager.isLiked(animalModel) {
-                likeIcon.isSelected = true
-            }
-        }
-    }
-    
+    var delegate: AnimalCellDelegate?
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -35,7 +27,10 @@ class AnimalCell: UITableViewCell {
         setConstraints()
         self.animalView.image = animalModel.image
         self.animalModel = animalModel
-        
+    }
+    
+    func setLikeProperty(_ isLiked: Bool) {
+        likeIcon.isSelected = isLiked
     }
     
     
@@ -80,13 +75,8 @@ class AnimalCell: UITableViewCell {
     
     
     @objc func likeImageAction() {
+        self.delegate?.likeImageAction(animalModel)
         likeIcon.isSelected = !likeIcon.isSelected
-        switch likeIcon.isSelected {
-        case true:
-            likeManager?.removeLike(animalModel)
-        case false:
-            likeManager?.addLike(animalModel)
-        }
     }
     
 }

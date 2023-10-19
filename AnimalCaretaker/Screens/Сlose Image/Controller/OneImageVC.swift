@@ -21,7 +21,7 @@ class OneImageVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .background
+//        self.view.backgroundColor = .background
         configureUI()
     }
     

@@ -12,6 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.backgroundColor = .white
         window.rootViewController = CustomTabBarController()
         self.window = window
+        window.backgroundColor = .none
         window.makeKeyAndVisible()
     }
     

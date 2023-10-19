@@ -29,7 +29,7 @@ class ProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         profileInfo.delegate = self
-        view.backgroundColor = .background
+//        view.backgroundColor = .background
         configureUI()
         configureConstrainst()
         setUIResponder()
@@ -73,7 +73,7 @@ class ProfileVC: UIViewController {
             segmentControl.rightAnchor.constraint(equalTo: view.rightAnchor),
             
             tableView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 10),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor)
         ])
@@ -81,7 +81,7 @@ class ProfileVC: UIViewController {
     
     
     @objc private func reloadTableViewData() {
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
     
     
@@ -115,9 +115,9 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "AnimalCell", for: indexPath) as? AnimalCell {
             if segmentControl.selectedSegmentIndex == 1 {
-                cell.configureCell(animalLikedModels[indexPath.row])
+                cell.configureCell(animalLikedModels[animalLikedModels.count - indexPath.row - 1])
             }
-            cell.likeManager = self.likeManager
+//            cell.likeManager = self.likeManager
             return cell
         }
         

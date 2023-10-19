@@ -30,8 +30,8 @@ class CustomNavigationController: UINavigationController {
     
     private func configureNavBar() {
         
-        self.navigationBar.backgroundColor = .background
-        self.navigationBar.barTintColor = .background
+//        self.navigationBar.backgroundColor = .background
+//        self.navigationBar.barTintColor = .background
         self.navigationBar.alpha = 1.0
         navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationBar.shadowImage = UIImage()
@@ -53,8 +53,7 @@ class CustomNavigationController: UINavigationController {
         let customBackButton = UIBarButtonItem(title: "asd", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = customBackButton
         navigationBar.backItem?.setLeftBarButton(customBackButton, animated: true)
-        self.navigationItem.backButtonTitle = "asd1"
-        print(self.navigationItem.backBarButtonItem)
+        
         
         titleLabel.textAlignment = .left
         titleLabel.text = "gram"

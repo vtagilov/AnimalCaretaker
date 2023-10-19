@@ -7,6 +7,12 @@
 
 import UIKit
 
+protocol AnimalCellDelegate {
+    func likeImageAction(_ model: AnimalCellModel)
+}
+
+
+
 class MainVC: UIViewController {
 
     let tableView = UITableView()
@@ -27,7 +33,7 @@ class MainVC: UIViewController {
     
     
     private func configureUI() {
-        view.backgroundColor = .background
+//        view.backgroundColor = .background
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(tableViewRefreshControl), for: .valueChanged)
         tableView.refreshControl = refreshControl
@@ -45,7 +51,7 @@ class MainVC: UIViewController {
             tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -71,11 +77,12 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "AnimalCell", for: indexPath) as? AnimalCell {
-            cell.configureCell(animalModels[indexPath.row])
-            cell.likeManager = self.likeManager
+            let animalModel = animalModels[indexPath.row]
+            cell.configureCell(animalModel)
+            cell.setLikeProperty(likeManager.isLiked(animalModel))
+            cell.delegate = self
             return cell
         }
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "AnimalCell", for: indexPath)
         return cell
     }
@@ -93,7 +100,6 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
         if indexPath.row > 2 {
             if tableView.numberOfRows(inSection: 0) <= indexPath.row + 1 {
                     self.networkManager.loadCell()
-                
             }
         }
         
@@ -114,6 +120,17 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
 }
 
 
+// MARK: - AnimalCellDelegate
+extension MainVC: AnimalCellDelegate {
+    func likeImageAction(_ model: AnimalCellModel) {
+        print("likeImageAction")
+        if likeManager.isLiked(model) {
+            likeManager.removeLike(model)
+        } else {
+            likeManager.addLike(model)
+        }
+    }
+}
 
 
 // MARK: - NetworkProtocol
