@@ -11,12 +11,16 @@ class ProfileVC: UIViewController {
 
     var animalLikedModels = [AnimalCellModel]()
     var animalPostedModels = [AnimalCellModel]()
+    
     let likeManager = LikeManager()
     
     let profileInfo = ProfileInfoView()
     
     let tableView = UITableView()
     let segmentControl = UISegmentedControl()
+    
+    var tapRecognizer = UITapGestureRecognizer()
+    
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -32,8 +36,7 @@ class ProfileVC: UIViewController {
         profileInfo.delegate = self
         configureUI()
         configureConstrainst()
-//        setUIResponder()
-        
+        setTapRecognizer()
     }
     
 
@@ -135,11 +138,6 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
             self.segmentControl.alpha = 0.0
             self.profileInfo.alpha = 0.0
             tableView.alpha = 0.0
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-//                self.segmentControl.alpha = 1.0
-//                self.profileInfo.alpha = 1.0
-//                tableView.alpha = 1.0
-//            }
         }
         navigationController?.isNavigationBarHidden = false
         navigationController?.pushViewController(oneImageVC, animated: true)
@@ -153,12 +151,13 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
 
 // MARK: - Set Gesture Responder
 extension ProfileVC {
-    private func setUIResponder() {
-        let responder = UITapGestureRecognizer(target: self, action: #selector(responderAction))
-        view.addGestureRecognizer(responder)
+    private func setTapRecognizer() {
+        tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapRecognizerAction))
+        view.addGestureRecognizer(tapRecognizer)
+        tapRecognizer.isEnabled = false
     }
     
-    @objc private func responderAction() {
+    @objc private func tapRecognizerAction() {
         profileInfo.nickTextField.resignFirstResponder()
     }
 }
@@ -182,5 +181,9 @@ extension ProfileVC: AnimalCellDelegate {
 extension ProfileVC: ProfileInfoViewDelegate {
     func presentTextFieldAlert(_ alert: UIAlertController) {
         present(alert, animated: true)
+    }
+    
+    func turnTapRecognizer() {
+        tapRecognizer.isEnabled = !tapRecognizer.isEnabled
     }
 }

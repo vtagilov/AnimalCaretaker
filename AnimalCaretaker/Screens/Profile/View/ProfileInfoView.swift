@@ -9,6 +9,7 @@ import UIKit
 
 protocol ProfileInfoViewDelegate {
     func presentTextFieldAlert(_ alert: UIAlertController)
+    func turnTapRecognizer()
 }
 
 
@@ -99,6 +100,12 @@ class ProfileInfoView: UIView {
 
 // MARK: - UITextFieldDelegate
 extension ProfileInfoView: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        delegate?.turnTapRecognizer()
+    }
+    
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField.text == nil { textFieldAlert(); return}
         if textField.text! == "" {
@@ -107,6 +114,7 @@ extension ProfileInfoView: UITextFieldDelegate {
             lastName = textField.text!
             profileManager.saveName(textField.text!)
         }
+        delegate?.turnTapRecognizer()
     }
     
     
