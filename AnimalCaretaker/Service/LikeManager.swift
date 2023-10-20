@@ -25,12 +25,18 @@ class LikeManager {
     }
     
     
+    
     func getModels() -> [AnimalCellModel] {
         reloadModels()
         var cellModels = [AnimalCellModel]()
         for model in savedModels {
-            let image = UIImage(data: model.data)!
-            cellModels.append(AnimalCellModel(id: model.id, image: image))
+            
+            if let image = UIImage.gif(data: model.data) {
+                cellModels.append(AnimalCellModel(id: model.id, image: image))
+            } else {
+                let image = UIImage(data: model.data)!
+                cellModels.append(AnimalCellModel(id: model.id, image: image))
+            }
         }
         return cellModels
     }
@@ -58,17 +64,17 @@ class LikeManager {
     
     
     
-    
-    
     func isLiked(_ model: AnimalCellModel) -> Bool {
         likedIds.contains(model.id)
     }
+    
+    
     
     func addLike(_ model: AnimalCellModel) {
         if let entity = NSEntityDescription.entity(forEntityName: "Entity", in: context) {
             let object = NSManagedObject(entity: entity, insertInto: context)
             object.setValue(model.id, forKey: "id")
-            object.setValue(model.image.pngData(), forKey: "imageData")
+            object.setValue(model.image, forKey: "imageData")
             do {
                 try context.save()
                 likedIds.append(model.id)

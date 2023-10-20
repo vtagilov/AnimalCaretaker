@@ -21,29 +21,38 @@ class OneImageVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.view.backgroundColor = .background
         configureUI()
+        configureConstraints()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let navController = self.navigationController as! CustomNavigationController
+        navController.selectionButton.isUserInteractionEnabled = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        let navController = self.navigationController as! CustomNavigationController
+        navController.selectionButton.isUserInteractionEnabled = true
+    }
+    
     
     
     private func configureUI() {
         scrollView.maximumZoomScale = 5.0
         scrollView.minimumZoomScale = 1.0
         scrollView.delegate = self
-        scrollView.frame = self.view.safeAreaLayoutGuide.layoutFrame
-        self.view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         imageView.contentMode = .scaleAspectFit
-        imageView.frame = scrollView.frame
-        scrollView.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        likeIcon.frame = CGRect(x: self.view.frame.width / 2 - 25,
-                                y: self.view.frame.height - 150,
-                                width: 50, height: 50)
+        likeIcon.contentHorizontalAlignment = .fill
+        likeIcon.contentVerticalAlignment = .fill
+        likeIcon.imageView?.tintColor = .white
         likeIcon.setImage(UIImage(systemName: "heart"), for: .normal)
         likeIcon.setImage(UIImage(systemName: "heart.fill"), for: .selected)
         likeIcon.addTarget(self, action: #selector(likeImageAction), for: .touchUpInside)
-        self.view.addSubview(likeIcon)
+        likeIcon.translatesAutoresizingMaskIntoConstraints = false
     }
     
     
@@ -57,7 +66,32 @@ class OneImageVC: UIViewController {
     }
 }
 
-
+extension OneImageVC {
+    private func configureConstraints() {
+        
+        self.view.addSubview(scrollView)
+        scrollView.addSubview(imageView)
+        view.addSubview(likeIcon)
+        
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            imageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            imageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            likeIcon.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -35),
+            likeIcon.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            likeIcon.widthAnchor.constraint(equalToConstant: 45),
+            likeIcon.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+}
 
 extension OneImageVC: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {

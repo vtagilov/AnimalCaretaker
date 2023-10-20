@@ -30,7 +30,6 @@ class ProfileVC: UIViewController {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
         profileInfo.delegate = self
-//        view.backgroundColor = .background
         configureUI()
         configureConstrainst()
 //        setUIResponder()

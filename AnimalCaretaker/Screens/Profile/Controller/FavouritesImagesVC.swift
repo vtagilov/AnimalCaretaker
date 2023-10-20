@@ -26,7 +26,6 @@ class FavouritesImagesVC: UIViewController {
         tableView.dataSource = self
         tableView.allowsSelection = true
         tableView.delegate = self
-        tableView.backgroundColor = .black
         tableView.contentMode = .scaleToFill
         tableView.contentSize.height = 0
         tableView.backgroundColor = .darkGray

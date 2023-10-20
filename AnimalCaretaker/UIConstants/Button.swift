@@ -10,7 +10,7 @@ import UIKit
 
 
 extension UIButton {
-    func makePopUpButton() {
+    func makeLikeButton() {
         
     }
 }
@@ -45,6 +45,7 @@ class PullDownButton: UIView {
             buttonAction()
         }
         
+        button.setTitleColor(.white, for: .disabled)
         button.setTitleColor(.lightGray, for: .normal)
         button.setTitleColor(.darkGray, for: .highlighted)
         button.setTitle("Dogs", for: .normal)

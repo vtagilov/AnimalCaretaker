@@ -33,7 +33,6 @@ class MainVC: UIViewController {
     
     
     private func configureUI() {
-//        view.backgroundColor = .background
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(tableViewRefreshControl), for: .valueChanged)
         tableView.refreshControl = refreshControl
