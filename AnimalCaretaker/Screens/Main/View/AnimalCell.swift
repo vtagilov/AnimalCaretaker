@@ -5,7 +5,7 @@ import CoreData
 class AnimalCell: UITableViewCell {
     
     private let animalView = UIImageView()
-    private let likeIcon = UIButton()
+    private let likeButton = UIButton.makeLikeButton()
     private var animalModel: AnimalCellModel!
     
     var delegate: AnimalCellDelegate?
@@ -30,7 +30,7 @@ class AnimalCell: UITableViewCell {
     }
     
     func setLikeProperty(_ isLiked: Bool) {
-        likeIcon.isSelected = isLiked
+        likeButton.isSelected = isLiked
     }
     
     
@@ -45,30 +45,31 @@ class AnimalCell: UITableViewCell {
         animalView.layer.borderWidth = 2.0
         animalView.layer.borderColor = CGColor(red: 1, green: 1, blue: 1, alpha: 0.5)
         animalView.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(animalView)
         
-        likeIcon.setImage(UIImage(systemName: "heart"), for: .normal)
-        likeIcon.setImage(UIImage(systemName: "heart.fill"), for: .selected)
-        likeIcon.addTarget(self, action: #selector(likeImageAction), for: .touchUpInside)
-        likeIcon.backgroundColor = .black
-        likeIcon.contentMode = .scaleAspectFit
-        likeIcon.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(likeIcon)
+        
+        likeButton.addTarget(self, action: #selector(likeImageAction), for: .touchUpInside)
+//        likeIcon.backgroundColor = .black
+        likeButton.translatesAutoresizingMaskIntoConstraints = false
+        
     }
     
     
     
     private func setConstraints() {
+        self.addSubview(animalView)
+        self.contentView.addSubview(likeButton)
+        
         NSLayoutConstraint.activate([
             animalView.topAnchor.constraint(equalTo: contentView.topAnchor),
             animalView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50),
             animalView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
             animalView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
             
-            likeIcon.topAnchor.constraint(equalTo: animalView.bottomAnchor),
-            likeIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            likeIcon.rightAnchor.constraint(equalTo: animalView.rightAnchor),
-            likeIcon.widthAnchor.constraint(equalToConstant: 40)
+            likeButton.topAnchor.constraint(equalTo: animalView.bottomAnchor, constant: 5),
+            likeButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+            likeButton.rightAnchor.constraint(equalTo: animalView.rightAnchor, constant: -5),
+            likeButton.widthAnchor.constraint(equalToConstant: 40),
+            likeButton.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
     
@@ -76,7 +77,10 @@ class AnimalCell: UITableViewCell {
     
     @objc func likeImageAction() {
         self.delegate?.likeImageAction(animalModel)
-        likeIcon.isSelected = !likeIcon.isSelected
+        UIView.animate(withDuration: 1.5) {
+            self.likeButton.isSelected = !self.likeButton.isSelected
+        }
+        
     }
     
 }

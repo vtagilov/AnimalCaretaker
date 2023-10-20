@@ -10,8 +10,14 @@ import UIKit
 
 
 extension UIButton {
-    func makeLikeButton() {
-        
+    static func makeLikeButton() -> UIButton {
+        let button = UIButton()
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
+        button.imageView?.tintColor = .white
+        button.setImage(UIImage(systemName: "heart"), for: .normal)
+        button.setImage(UIImage(systemName: "heart.fill"), for: .selected)
+        return button
     }
 }
 

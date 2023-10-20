@@ -4,7 +4,7 @@ class OneImageVC: UIViewController {
 
     let imageView: UIImageView
     let scrollView = UIScrollView()
-    let likeIcon = UIButton()
+    let likeButton = UIButton.makeLikeButton()
     let isLiked: Bool
     
     
@@ -46,23 +46,13 @@ class OneImageVC: UIViewController {
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        likeIcon.contentHorizontalAlignment = .fill
-        likeIcon.contentVerticalAlignment = .fill
-        likeIcon.imageView?.tintColor = .white
-        likeIcon.setImage(UIImage(systemName: "heart"), for: .normal)
-        likeIcon.setImage(UIImage(systemName: "heart.fill"), for: .selected)
-        likeIcon.addTarget(self, action: #selector(likeImageAction), for: .touchUpInside)
-        likeIcon.translatesAutoresizingMaskIntoConstraints = false
+        likeButton.addTarget(self, action: #selector(likeButtonAction), for: .touchUpInside)
+        likeButton.translatesAutoresizingMaskIntoConstraints = false
     }
     
     
-    @objc func likeImageAction() {
-        switch likeIcon.isSelected {
-        case true:
-            likeIcon.isSelected = false
-        case false:
-            likeIcon.isSelected = true
-        }
+    @objc func likeButtonAction() {
+        likeButton.isSelected = !likeButton.isSelected
     }
 }
 
@@ -71,7 +61,7 @@ extension OneImageVC {
         
         self.view.addSubview(scrollView)
         scrollView.addSubview(imageView)
-        view.addSubview(likeIcon)
+        view.addSubview(likeButton)
         
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -81,14 +71,13 @@ extension OneImageVC {
             
             imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            imageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
             imageView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-            likeIcon.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -35),
-            likeIcon.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            likeIcon.widthAnchor.constraint(equalToConstant: 45),
-            likeIcon.heightAnchor.constraint(equalToConstant: 40)
+            likeButton.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -35),
+            likeButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            likeButton.widthAnchor.constraint(equalToConstant: 45),
+            likeButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
 }
