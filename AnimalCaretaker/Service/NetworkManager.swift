@@ -81,14 +81,14 @@ class NetworkManager {
                 return
             }
             if let image = UIImage.gif(data: data) {
-                self.uploadAnimalModel(id, image)
+                self.uploadAnimalModel(id, image, data)
                 return
             }
             guard let image = UIImage(data: data) else {
                 self.uploadError(.imageParsingError)
                 return
             }
-            self.uploadAnimalModel(id, image)
+            self.uploadAnimalModel(id, image, data)
         }
     }
     
@@ -98,8 +98,8 @@ class NetworkManager {
     }
     
     
-    private func uploadAnimalModel(_ id: String, _ image: UIImage) {
-        let animalModel = AnimalCellModel(id: id, image: image)
+    private func uploadAnimalModel(_ id: String, _ image: UIImage, _ data: Data) {
+        let animalModel = AnimalCellModel(id: id, image: image, data: data)
         DispatchQueue.main.async {
             self.delegate?.addAnimalModel(animalModel)
         }

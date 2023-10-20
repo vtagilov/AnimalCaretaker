@@ -18,6 +18,7 @@ struct AnimalModel: Codable {
 struct AnimalCellModel {
     let id: String
     let image: UIImage
+    let data: Data
 }
 
 

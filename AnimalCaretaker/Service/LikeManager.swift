@@ -32,10 +32,10 @@ class LikeManager {
         for model in savedModels {
             
             if let image = UIImage.gif(data: model.data) {
-                cellModels.append(AnimalCellModel(id: model.id, image: image))
+                cellModels.append(AnimalCellModel(id: model.id, image: image, data: model.data))
             } else {
                 let image = UIImage(data: model.data)!
-                cellModels.append(AnimalCellModel(id: model.id, image: image))
+                cellModels.append(AnimalCellModel(id: model.id, image: image, data: model.data))
             }
         }
         return cellModels
@@ -74,7 +74,7 @@ class LikeManager {
         if let entity = NSEntityDescription.entity(forEntityName: "Entity", in: context) {
             let object = NSManagedObject(entity: entity, insertInto: context)
             object.setValue(model.id, forKey: "id")
-            object.setValue(model.image, forKey: "imageData")
+            object.setValue(model.data, forKey: "imageData")
             do {
                 try context.save()
                 likedIds.append(model.id)
@@ -83,6 +83,8 @@ class LikeManager {
             }
         }
     }
+    
+    
     
     func removeLike(_ model: AnimalCellModel) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Entity")
