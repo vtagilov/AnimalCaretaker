@@ -12,11 +12,12 @@
 		E71873A52A39FBC300F9C49E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E71873A42A39FBC300F9C49E /* Assets.xcassets */; };
 		E71873A82A39FBC300F9C49E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E71873A62A39FBC300F9C49E /* LaunchScreen.storyboard */; };
 		E71873D02A3A149E00F9C49E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71873CF2A3A149E00F9C49E /* NetworkManager.swift */; };
-		E71873D22A3A151300F9C49E /* ViewControllerProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71873D12A3A151300F9C49E /* ViewControllerProtocols.swift */; };
 		E71873D42A3F534F00F9C49E /* ImageGifs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71873D32A3F534F00F9C49E /* ImageGifs.swift */; };
 		E71873D62A4197CE00F9C49E /* AnimalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71873D52A4197CE00F9C49E /* AnimalCell.swift */; };
 		E71873D82A435FF100F9C49E /* OneImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71873D72A435FF100F9C49E /* OneImageVC.swift */; };
 		E71FAFDE2AD5B945003898C0 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71FAFDD2AD5B945003898C0 /* View.swift */; };
+		E725C2652AE3FB73008AC9F8 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E725C2642AE3FB73008AC9F8 /* PhotoCell.swift */; };
+		E725C2672AE418FC008AC9F8 /* CameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E725C2662AE418FC008AC9F8 /* CameraModel.swift */; };
 		E733858E2AAA3902001B8858 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E733858D2AAA3902001B8858 /* TabBar.swift */; };
 		E73385942AAA4DC7001B8858 /* NewImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73385932AAA4DC7001B8858 /* NewImageVC.swift */; };
 		E73385992AAA4E1F001B8858 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73385982AAA4E1F001B8858 /* ProfileVC.swift */; };
@@ -45,11 +46,12 @@
 		E71873A72A39FBC300F9C49E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E71873A92A39FBC300F9C49E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E71873CF2A3A149E00F9C49E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		E71873D12A3A151300F9C49E /* ViewControllerProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerProtocols.swift; sourceTree = "<group>"; };
 		E71873D32A3F534F00F9C49E /* ImageGifs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGifs.swift; sourceTree = "<group>"; };
 		E71873D52A4197CE00F9C49E /* AnimalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalCell.swift; sourceTree = "<group>"; };
 		E71873D72A435FF100F9C49E /* OneImageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneImageVC.swift; sourceTree = "<group>"; };
 		E71FAFDD2AD5B945003898C0 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		E725C2642AE3FB73008AC9F8 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		E725C2662AE418FC008AC9F8 /* CameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
 		E733858D2AAA3902001B8858 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		E73385932AAA4DC7001B8858 /* NewImageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewImageVC.swift; sourceTree = "<group>"; };
 		E73385982AAA4E1F001B8858 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
@@ -127,7 +129,6 @@
 				E73385A32AAA4E90001B8858 /* Сlose Image */,
 				E73385972AAA4DE7001B8858 /* Profile */,
 				E73385962AAA4DD6001B8858 /* New Image */,
-				E71873D12A3A151300F9C49E /* ViewControllerProtocols.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -234,6 +235,7 @@
 		E733859D2AAA4E51001B8858 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E725C2662AE418FC008AC9F8 /* CameraModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -241,6 +243,7 @@
 		E733859E2AAA4E57001B8858 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E725C2642AE3FB73008AC9F8 /* PhotoCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -383,10 +386,11 @@
 				E745EE652AB47562008246B7 /* LikeManager.swift in Sources */,
 				E7F8ADA82ABB72F400FF9148 /* TextField.swift in Sources */,
 				E73385992AAA4E1F001B8858 /* ProfileVC.swift in Sources */,
-				E71873D22A3A151300F9C49E /* ViewControllerProtocols.swift in Sources */,
 				E7F8ADB22ABCD0F200FF9148 /* TableView.swift in Sources */,
 				E73385B42AB06A3E001B8858 /* Erorrs.swift in Sources */,
+				E725C2652AE3FB73008AC9F8 /* PhotoCell.swift in Sources */,
 				E733858E2AAA3902001B8858 /* TabBar.swift in Sources */,
+				E725C2672AE418FC008AC9F8 /* CameraModel.swift in Sources */,
 				E73385AC2AAB9B19001B8858 /* NavController.swift in Sources */,
 				E71873D82A435FF100F9C49E /* OneImageVC.swift in Sources */,
 				E718739C2A39FBC200F9C49E /* AppDelegate.swift in Sources */,
@@ -472,7 +476,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app needs access to your photo library to allow you to select and upload photos";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -526,7 +531,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app needs access to your photo library to allow you to select and upload photos";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

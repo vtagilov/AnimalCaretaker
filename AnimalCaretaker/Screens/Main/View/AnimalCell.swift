@@ -48,7 +48,6 @@ class AnimalCell: UITableViewCell {
         
         
         likeButton.addTarget(self, action: #selector(likeImageAction), for: .touchUpInside)
-//        likeIcon.backgroundColor = .black
         likeButton.translatesAutoresizingMaskIntoConstraints = false
         
     }

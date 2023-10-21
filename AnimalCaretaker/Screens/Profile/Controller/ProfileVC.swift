@@ -23,13 +23,6 @@ class ProfileVC: UIViewController {
     
     
     
-    override func viewWillAppear(_ animated: Bool) {
-        let models = likeManager.getModels()
-        animalLikedModels = models
-        profileInfo.likeCounterLabel.text = "Liked posts\n" + String(models.count)
-        tableView.reloadData()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
@@ -37,6 +30,7 @@ class ProfileVC: UIViewController {
         configureUI()
         configureConstrainst()
         setTapRecognizer()
+        tableViewRefreshControl()
     }
     
 
@@ -133,7 +127,8 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let animalModel = [animalPostedModels, animalLikedModels][segmentControl.selectedSegmentIndex][animalLikedModels.count - indexPath.row - 1]
 
-        let oneImageVC = OneImageVC(animalModel)
+        let oneImageVC = OneImageVC(indexPath.row, animalModel, likeManager.isLiked(animalModel))
+        oneImageVC.delegate = self
         UIView.animate(withDuration: 0.2) {
             self.segmentControl.alpha = 0.0
             self.profileInfo.alpha = 0.0
@@ -185,5 +180,16 @@ extension ProfileVC: ProfileInfoViewDelegate {
     
     func turnTapRecognizer() {
         tapRecognizer.isEnabled = !tapRecognizer.isEnabled
+    }
+}
+
+
+
+// MARK: - CloseImageDelegate
+extension ProfileVC: CloseImageDelegate {
+    func likeAction(_ sender: UIButton, _ model: AnimalCellModel, _ numberOfCell: Int) {
+        likeImageAction(model)
+        let cell = tableView.cellForRow(at: IndexPath(row: numberOfCell, section: 0)) as? AnimalCell
+        cell?.setLikeProperty(!sender.isSelected)
     }
 }

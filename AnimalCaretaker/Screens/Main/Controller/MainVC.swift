@@ -12,13 +12,22 @@ protocol AnimalCellDelegate {
 }
 
 
+protocol NetworkProtocol {
+    func addAnimalModel(_ animalModel: AnimalCellModel)
+    func loadError(_ error: Error)
+}
+
+
 
 class MainVC: UIViewController {
-
-    let tableView = UITableView()
+    
     var animalModels = [AnimalCellModel]()
+    
+    let tableView = UITableView()
+    
     let networkManager = NetworkManager(.dogs)
     let likeManager = LikeManager()
+    
     var lastCell = 0
     
     
@@ -112,10 +121,10 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let animalModel = animalModels[indexPath.row]
-        let oneImageVC = OneImageVC(animalModel)
+        let oneImageVC = OneImageVC(indexPath.row, animalModel, likeManager.isLiked(animalModel))
+        oneImageVC.delegate = self
         UIView.animate(withDuration: 0.2) {
             tableView.alpha = 0.0
-
         }
         self.navigationController?.pushViewController(oneImageVC, animated: true)
     }
@@ -151,4 +160,19 @@ extension MainVC: NetworkProtocol {
         networkManager.loadCell()
     }
     
+}
+
+
+
+//MARK: - CloseImageDelegate
+extension MainVC: CloseImageDelegate {
+    func likeAction(_ sender: UIButton, _ model: AnimalCellModel, _ numberOfCell: Int) {
+        if sender.isSelected {
+            likeManager.removeLike(model)
+        } else {
+            likeManager.addLike(model)
+        }
+        tableView.reloadData()
+        
+    }
 }

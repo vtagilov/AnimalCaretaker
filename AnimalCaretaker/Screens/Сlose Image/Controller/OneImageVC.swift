@@ -1,17 +1,41 @@
 import UIKit
 
+protocol CloseImageDelegate {
+    func likeAction(_ sender: UIButton, _ model: AnimalCellModel, _ numberOfCell: Int)
+}
+
+
 class OneImageVC: UIViewController {
 
     let imageView: UIImageView
     let scrollView = UIScrollView()
     let likeButton = UIButton.makeLikeButton()
+    var tapRecognizer = UITapGestureRecognizer()
+    
     let isLiked: Bool
+    let animalModel: AnimalCellModel
+    var delegate: CloseImageDelegate?
+    
+    let numberOfCell: Int
     
     
-    init(_ animalModel: AnimalCellModel) {
-        self.imageView = UIImageView(image: animalModel.image)
-        self.isLiked = false
+    init(_ image: UIImage) {
+        self.imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
+        self.numberOfCell = 0
+        self.animalModel = AnimalCellModel(id: "", image: UIImage(), data: Data())
+        likeButton.isHidden = true
+        self.isLiked = true
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(_ numberOfCell: Int, _ animalModel: AnimalCellModel, _ isLiked: Bool) {
+        self.numberOfCell = numberOfCell
+        self.animalModel = animalModel
+        self.isLiked = isLiked
+        self.imageView = UIImageView(image: animalModel.image)
+        super.init(nibName: nil, bundle: nil)
+        configureTapRecognizer()
     }
     
     required init?(coder: NSCoder) {
@@ -46,16 +70,21 @@ class OneImageVC: UIViewController {
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
+        likeButton.isSelected = isLiked
         likeButton.addTarget(self, action: #selector(likeButtonAction), for: .touchUpInside)
         likeButton.translatesAutoresizingMaskIntoConstraints = false
     }
     
     
     @objc func likeButtonAction() {
+        delegate?.likeAction(likeButton, animalModel, numberOfCell)
         likeButton.isSelected = !likeButton.isSelected
     }
 }
 
+
+
+// MARK: - set constraints
 extension OneImageVC {
     private func configureConstraints() {
         
@@ -82,8 +111,23 @@ extension OneImageVC {
     }
 }
 
+
+
+
+//MARK: - UIScrollViewDelegate
 extension OneImageVC: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
+    }
+}
+
+
+
+//MARK: - configure TapRecognizer
+extension OneImageVC {
+    private func configureTapRecognizer() {
+        tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(likeButtonAction))
+        tapRecognizer.numberOfTapsRequired = 2
+        view.addGestureRecognizer(tapRecognizer)
     }
 }

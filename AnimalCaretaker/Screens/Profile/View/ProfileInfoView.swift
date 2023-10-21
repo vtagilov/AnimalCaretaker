@@ -25,8 +25,8 @@ class ProfileInfoView: UIView {
     let nickTextField = UITextField()
     let profileImageView = UIImageView()
 
-    let likeCounterLabel = UILabel()
-    let postsCounterLabel = UILabel()
+    let likeCounterLabel = UILabel.makeCounterLabel()
+    let postsCounterLabel = UILabel.makeCounterLabel()
     
     
     init(delegate: ProfileInfoViewDelegate? = nil) {
@@ -52,8 +52,6 @@ class ProfileInfoView: UIView {
     private func configureUI() {
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        likeCounterLabel.makeCounerLabel()
-        postsCounterLabel.makeCounerLabel()
         updateCounterLabels()
         
         nickTextField.makeProfileNameField(32)

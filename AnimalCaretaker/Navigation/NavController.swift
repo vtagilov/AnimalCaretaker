@@ -52,6 +52,13 @@ class CustomNavigationController: UINavigationController {
                 vc.tableView.alpha = 1.0
             }
         }
+        if viewControllers.first is NewImageVC {
+            let vc = viewControllers.first as! NewImageVC
+            UIView.animate(withDuration: 0.3) {
+                vc.collectionView.alpha = 1.0
+                vc.titleLabel.alpha = 1.0
+            }
+        }
         return super.popViewController(animated: animated)
     }
     
@@ -70,8 +77,14 @@ class CustomNavigationController: UINavigationController {
         selectionButton.configureButton()
         navigationBar.addSubview(selectionButton)
     }
+    
+}
 
 
+
+//MARK: - set constraints
+extension CustomNavigationController {
+    
     private func configureConstarints() {
         NSLayoutConstraint.activate([
             titleLabel.leftAnchor.constraint(equalTo: navigationBar.centerXAnchor),
@@ -83,5 +96,4 @@ class CustomNavigationController: UINavigationController {
             selectionButton.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor)
         ])
     }
-    
 }
