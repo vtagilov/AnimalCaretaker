@@ -14,12 +14,12 @@ class NewImageVC: UIViewController {
     let titleLabel = UILabel.makeTitleLabel("New Post")
     let chooseFromGallefyButton = UIButton()
     let makePhotoButton = UIButton()
-    
     let imageView = UIImageView()
+    var collectionView: UICollectionView!
     
     var imagesFromGallery = [UIImage]()
     
-    var collectionView: UICollectionView!
+    let postsManager = PostsManager()
     
     
     override func viewDidLoad() {
@@ -105,14 +105,19 @@ extension NewImageVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         return CGSize(width: view.frame.width / 3 - 10, height: view.frame.width / 3 - 10)
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             takePhoto()
             return
         }
-        
         let image = getPhotoFromGallery(indexPath.row)
-        self.navigationController?.pushViewController(OneImageVC(image), animated: true)
+        let id = (postsManager.postsIds.max() ?? 0) + 1
+        let postModel = PostModel(id: id, data: image.pngData()!, time: Date())
+        let oneImageVC = OneImageVC(postModel)
+        oneImageVC.newImageDelegate = self
+        self.navigationController?.pushViewController(oneImageVC, animated: true)
+        
         UIView.animate(withDuration: 0.2) {
             collectionView.alpha = 0.0
             self.titleLabel.alpha = 0.0
@@ -123,3 +128,9 @@ extension NewImageVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
 }
 
 
+
+extension NewImageVC: CloseNewImageDelegate {
+    func postAction(_ model: PostModel) {
+        postsManager.addPost(model)
+    }
+}

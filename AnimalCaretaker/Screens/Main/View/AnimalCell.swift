@@ -7,6 +7,7 @@ class AnimalCell: UITableViewCell {
     private let animalView = UIImageView()
     private let likeButton = UIButton.makeLikeButton()
     private var animalModel: AnimalCellModel!
+    private var postModel: PostModel!
     
     var delegate: AnimalCellDelegate?
     
@@ -27,7 +28,19 @@ class AnimalCell: UITableViewCell {
         setConstraints()
         self.animalView.image = animalModel.image
         self.animalModel = animalModel
+        likeButton.isHidden = false
     }
+    
+    
+    func configureCell(_ model: PostModel) {
+        configureUI()
+        setConstraints()
+        self.animalView.image = UIImage(data: model.data)
+        self.postModel = model
+        likeButton.isHidden = true
+    }
+    
+    
     
     func setLikeProperty(_ isLiked: Bool) {
         likeButton.isSelected = isLiked
@@ -35,7 +48,6 @@ class AnimalCell: UITableViewCell {
     
     
     private func configureUI() {
-        
         self.backgroundColor = .none
         self.selectionStyle = .none
         
@@ -46,10 +58,8 @@ class AnimalCell: UITableViewCell {
         animalView.layer.borderColor = CGColor(red: 1, green: 1, blue: 1, alpha: 0.5)
         animalView.translatesAutoresizingMaskIntoConstraints = false
         
-        
         likeButton.addTarget(self, action: #selector(likeImageAction), for: .touchUpInside)
         likeButton.translatesAutoresizingMaskIntoConstraints = false
-        
     }
     
     
@@ -79,7 +89,6 @@ class AnimalCell: UITableViewCell {
         UIView.animate(withDuration: 1.5) {
             self.likeButton.isSelected = !self.likeButton.isSelected
         }
-        
     }
     
 }

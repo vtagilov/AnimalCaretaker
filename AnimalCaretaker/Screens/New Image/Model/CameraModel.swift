@@ -21,27 +21,19 @@ extension NewImageVC: UIImagePickerControllerDelegate & UINavigationControllerDe
     
     
     
-    func chooseImageFromGallery() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.delegate = self
-        present(imagePicker, animated: true, completion: nil)
-    }
-    
-    
-    
-    func getPhotoFromGallery(_ index: Int) {
+    func getPhotoFromGallery(_ index: Int) -> UIImage {
         let fetchOptions = PHFetchOptions()
         let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-        
         let asset = allPhotos[index]
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = true
-        PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: .max, height: .max), contentMode: .aspectFit, options: requestOptions) { (image, _) in
-            if let image = image {
-                print(image)
+        var image = UIImage()
+        PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: .max, height: .max), contentMode: .aspectFit, options: requestOptions) { (foundImage, _) in
+            if let foundImage = foundImage {
+                image = foundImage
             }
         }
+        return image
     }
     
     
@@ -56,7 +48,6 @@ extension NewImageVC: UIImagePickerControllerDelegate & UINavigationControllerDe
             requestOptions.isSynchronous = true
             PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFit, options: requestOptions) { (image, _) in
                 if let image = image {
-                    print(index)
                     self.imagesFromGallery.append(image)
                 }
             }
@@ -99,19 +90,8 @@ extension NewImageVC: UIImagePickerControllerDelegate & UINavigationControllerDe
         present(alert, animated: true, completion: nil)
     }
     
+
     
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let pickedImage = info[.originalImage] as? UIImage {
-            print(pickedImage)
-            imageView.image = pickedImage
-        }
-        dismiss(animated: true, completion: nil)
-    }
-    
-    
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
+
 }

@@ -10,9 +10,10 @@ import UIKit
 class ProfileVC: UIViewController {
 
     var animalLikedModels = [AnimalCellModel]()
-    var animalPostedModels = [AnimalCellModel]()
+    var animalPostedModels = [PostModel]()
     
     let likeManager = LikeManager()
+    let postsManager = PostsManager()
     
     let profileInfo = ProfileInfoView()
     
@@ -51,30 +52,6 @@ class ProfileVC: UIViewController {
     
     
     
-    private func configureConstrainst() {
-        self.view.addSubview(profileInfo)
-        self.view.addSubview(segmentControl)
-        self.view.addSubview(tableView)
-        
-        NSLayoutConstraint.activate([
-            profileInfo.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            profileInfo.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            profileInfo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            profileInfo.heightAnchor.constraint(equalToConstant: 125),
-            
-            segmentControl.topAnchor.constraint(equalTo: profileInfo.bottomAnchor, constant: 10),
-            segmentControl.heightAnchor.constraint(equalToConstant: 40),
-            segmentControl.leftAnchor.constraint(equalTo: view.leftAnchor),
-            segmentControl.rightAnchor.constraint(equalTo: view.rightAnchor),
-            
-            tableView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 10),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            tableView.rightAnchor.constraint(equalTo: view.rightAnchor)
-        ])
-    }
-    
-    
     @objc private func reloadTableViewData() {
         self.tableView.reloadData()
     }
@@ -82,6 +59,8 @@ class ProfileVC: UIViewController {
     
     @objc private func tableViewRefreshControl() {
         self.animalLikedModels = self.likeManager.getModels()
+        self.animalPostedModels = self.postsManager.getModels()
+        
         self.tableView.reloadData()
         self.profileInfo.updateCounterLabels()
         self.tableView.refreshControl?.endRefreshing()
@@ -99,9 +78,14 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
     
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let models = [animalPostedModels, animalLikedModels][segmentControl.selectedSegmentIndex]
-        let model = models[animalLikedModels.count - indexPath.row - 1]
-        let image = model.image
+        let image: UIImage
+        if segmentControl.selectedSegmentIndex == 0 {
+            let model = animalPostedModels[indexPath.row]
+            image = UIImage(data: model.data)!
+        } else {
+            let model = animalLikedModels[animalLikedModels.count - indexPath.row - 1]
+            image = model.image
+        }
         let aspectRatio = image.size.width / image.size.height
         let cellHeight = tableView.bounds.width / aspectRatio + 40
         return cellHeight
@@ -109,8 +93,15 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         if let cell = tableView.dequeueReusableCell(withIdentifier: "AnimalCell", for: indexPath) as? AnimalCell {
-            if segmentControl.selectedSegmentIndex == 1 {
+            
+            if segmentControl.selectedSegmentIndex == 0 {
+                let animalModel = animalPostedModels[indexPath.row]
+                cell.configureCell(animalModel)
+                cell.delegate = self
+                return cell
+            } else if segmentControl.selectedSegmentIndex == 1 {
                 let animalModel = animalLikedModels[animalLikedModels.count - indexPath.row - 1]
                 cell.configureCell(animalModel)
                 cell.setLikeProperty(likeManager.isLiked(animalModel))
@@ -125,10 +116,21 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let animalModel = [animalPostedModels, animalLikedModels][segmentControl.selectedSegmentIndex][animalLikedModels.count - indexPath.row - 1]
-
-        let oneImageVC = OneImageVC(indexPath.row, animalModel, likeManager.isLiked(animalModel))
-        oneImageVC.delegate = self
+        let oneImageVC: OneImageVC
+        print(indexPath.section)
+        if segmentControl.selectedSegmentIndex == 0 {
+            let model = animalPostedModels[indexPath.row]
+            oneImageVC = OneImageVC(model)
+            oneImageVC.setDeleteButton()
+            oneImageVC.delegate = self
+            
+        } else {
+            let model = animalLikedModels[animalLikedModels.count - indexPath.row - 1]
+            oneImageVC = OneImageVC(indexPath.row, model, likeManager.isLiked(model))
+            oneImageVC.delegate = self
+            
+        }
+        
         UIView.animate(withDuration: 0.2) {
             self.segmentControl.alpha = 0.0
             self.profileInfo.alpha = 0.0
@@ -191,5 +193,33 @@ extension ProfileVC: CloseImageDelegate {
         likeImageAction(model)
         let cell = tableView.cellForRow(at: IndexPath(row: numberOfCell, section: 0)) as? AnimalCell
         cell?.setLikeProperty(!sender.isSelected)
+    }
+}
+
+
+//MARK: - set constraints
+extension ProfileVC {
+    
+    private func configureConstrainst() {
+        self.view.addSubview(profileInfo)
+        self.view.addSubview(segmentControl)
+        self.view.addSubview(tableView)
+        
+        NSLayoutConstraint.activate([
+            profileInfo.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            profileInfo.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            profileInfo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            profileInfo.heightAnchor.constraint(equalToConstant: 125),
+            
+            segmentControl.topAnchor.constraint(equalTo: profileInfo.bottomAnchor, constant: 10),
+            segmentControl.heightAnchor.constraint(equalToConstant: 40),
+            segmentControl.leftAnchor.constraint(equalTo: view.leftAnchor),
+            segmentControl.rightAnchor.constraint(equalTo: view.rightAnchor),
+            
+            tableView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 10),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor)
+        ])
     }
 }

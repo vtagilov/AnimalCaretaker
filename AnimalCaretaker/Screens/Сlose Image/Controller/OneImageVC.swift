@@ -2,6 +2,11 @@ import UIKit
 
 protocol CloseImageDelegate {
     func likeAction(_ sender: UIButton, _ model: AnimalCellModel, _ numberOfCell: Int)
+//    func deletePostAction(_ sender: UIButton, _ model: AnimalCellModel, _ numberOfCell: Int)
+}
+
+protocol CloseNewImageDelegate {
+    func postAction(_ model: PostModel)
 }
 
 
@@ -9,24 +14,36 @@ class OneImageVC: UIViewController {
 
     let imageView: UIImageView
     let scrollView = UIScrollView()
+//    for new post
+    let postButton = UIButton()
+    
+//    for my posts
+    let deleteButton = UIButton()
+    
+//    for common view
     let likeButton = UIButton.makeLikeButton()
-    var tapRecognizer = UITapGestureRecognizer()
+    var likeRecognizer = UITapGestureRecognizer()
     
+    
+    
+    
+    var postsManager = PostsManager()
     let isLiked: Bool
-    let animalModel: AnimalCellModel
+    var animalModel: AnimalCellModel? = nil
+    var postModel: PostModel? = nil
     var delegate: CloseImageDelegate?
+    var newImageDelegate: CloseNewImageDelegate?
+    var numberOfCell: Int? = nil
     
-    let numberOfCell: Int
     
-    
-    init(_ image: UIImage) {
-        self.imageView = UIImageView(image: image)
+    init(_ model: PostModel) {
+        postModel = model
+        self.imageView = UIImageView(image: UIImage(data: model.data))
         imageView.contentMode = .scaleAspectFit
-        self.numberOfCell = 0
-        self.animalModel = AnimalCellModel(id: "", image: UIImage(), data: Data())
         likeButton.isHidden = true
-        self.isLiked = true
+        self.isLiked = false
         super.init(nibName: nil, bundle: nil)
+        self.setPostButton()
     }
     
     init(_ numberOfCell: Int, _ animalModel: AnimalCellModel, _ isLiked: Bool) {
@@ -45,6 +62,7 @@ class OneImageVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(imageView.image?.size)
         configureUI()
         configureConstraints()
     }
@@ -61,7 +79,21 @@ class OneImageVC: UIViewController {
     
     
     
+    func setDeleteButton() {
+        postButton.isHidden = true
+        deleteButton.isHidden = false
+        deleteButton.setTitle("Delete post", for: .normal)
+        deleteButton.titleLabel?.font = .boldSystemFont(ofSize: 32)
+        deleteButton.addTarget(self, action: #selector(deleteButtonAction), for: .touchUpInside)
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        configureDeleteButtonConstraints()
+    }
+    
+    
+    
     private func configureUI() {
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
         scrollView.maximumZoomScale = 5.0
         scrollView.minimumZoomScale = 1.0
         scrollView.delegate = self
@@ -73,11 +105,35 @@ class OneImageVC: UIViewController {
         likeButton.isSelected = isLiked
         likeButton.addTarget(self, action: #selector(likeButtonAction), for: .touchUpInside)
         likeButton.translatesAutoresizingMaskIntoConstraints = false
+        if !likeButton.isHidden {
+            postButton.isHidden = true
+        }
     }
     
     
+    
+    private func setPostButton() {
+        postButton.isHidden = false
+        postButton.setTitle("Post", for: .normal)
+        postButton.titleLabel?.font = .boldSystemFont(ofSize: 32)
+        postButton.addTarget(self, action: #selector(postButtonAction), for: .touchUpInside)
+        postButton.translatesAutoresizingMaskIntoConstraints = false
+        configurePostButtonConstraints()
+    }
+    
+    
+    
+    @objc func postButtonAction() {
+        newImageDelegate?.postAction(postModel!)
+    }
+    
+    @objc func deleteButtonAction() {
+        print("delete action")
+        
+    }
+    
     @objc func likeButtonAction() {
-        delegate?.likeAction(likeButton, animalModel, numberOfCell)
+        delegate?.likeAction(likeButton, animalModel!, numberOfCell!)
         likeButton.isSelected = !likeButton.isSelected
     }
 }
@@ -86,8 +142,25 @@ class OneImageVC: UIViewController {
 
 // MARK: - set constraints
 extension OneImageVC {
+    private func configureDeleteButtonConstraints() {
+        view.addSubview(deleteButton)
+        NSLayoutConstraint.activate([
+            deleteButton.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -35),
+            deleteButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            deleteButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+    
+    private func configurePostButtonConstraints() {
+        view.addSubview(postButton)
+        NSLayoutConstraint.activate([
+            postButton.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -35),
+            postButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            postButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+    
     private func configureConstraints() {
-        
         self.view.addSubview(scrollView)
         scrollView.addSubview(imageView)
         view.addSubview(likeButton)
@@ -126,8 +199,8 @@ extension OneImageVC: UIScrollViewDelegate {
 //MARK: - configure TapRecognizer
 extension OneImageVC {
     private func configureTapRecognizer() {
-        tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(likeButtonAction))
-        tapRecognizer.numberOfTapsRequired = 2
-        view.addGestureRecognizer(tapRecognizer)
+        likeRecognizer = UITapGestureRecognizer(target: self, action: #selector(likeButtonAction))
+        likeRecognizer.numberOfTapsRequired = 2
+        view.addGestureRecognizer(likeRecognizer)
     }
 }

@@ -1,21 +1,20 @@
 //
-//  LikeManager.swift
+//  PostsManager.swift
 //  AnimalCaretaker
 //
-//  Created by Владимир on 15.09.2023.
+//  Created by Владимир on 23.10.2023.
 //
 
 import Foundation
-import CoreData
 import UIKit
+import CoreData
 
-
-class LikeManager {
+class PostsManager {
     
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private let context: NSManagedObjectContext!
-    private var savedModels: [(id: String, data: Data)] = []
-    var likedIds = [String]()
+    private var models: [(id: Int, data: Data, time: Date)] = []
+    var postsIds = [Int]()
     
     
     
@@ -26,34 +25,30 @@ class LikeManager {
     
     
     
-    func getModels() -> [AnimalCellModel] {
+    func getModels() -> [PostModel] {
         reloadModels()
-        var cellModels = [AnimalCellModel]()
-        for model in savedModels {
-            
-            if let image = UIImage.gif(data: model.data) {
-                cellModels.append(AnimalCellModel(id: model.id, image: image, data: model.data))
-            } else {
-                let image = UIImage(data: model.data)!
-                cellModels.append(AnimalCellModel(id: model.id, image: image, data: model.data))
-            }
+        var postModels = [PostModel]()
+        for model in models {
+//            let image = UIImage(data: model.data)!
+            postModels.append(PostModel(id: model.id, data: model.data, time: model.time))
         }
-        return cellModels
+        return postModels
     }
     
     
     
     private func reloadModels() {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Entity")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "UploadPosts")
         do {
             let result = try context.fetch(fetchRequest)
             if let entities = result as? [NSManagedObject] {
-                savedModels = []
+                models = []
                 for entity in entities {
-                    if let id = entity.value(forKey: "id") as? String,
-                       let imageData = entity.value(forKey: "imageData") as? Data {
-                        savedModels.append((id, imageData))
-                        likedIds.append(id)
+                    if let id = entity.value(forKey: "id") as? Int,
+                       let imageData = entity.value(forKey: "imageData") as? Data,
+                       let time = entity.value(forKey: "time") as? Date {
+                        models.append((id, imageData, time))
+                        postsIds.append(id)
                     }
                 }
             }
@@ -64,20 +59,21 @@ class LikeManager {
     
     
     
-    func isLiked(_ model: AnimalCellModel) -> Bool {
-        likedIds.contains(model.id)
-    }
+//    func isLiked(_ model: AnimalCellModel) -> Bool {
+//        imageIds.contains(model.id)
+//    }
     
     
     
-    func addLike(_ model: AnimalCellModel) {
-        if let entity = NSEntityDescription.entity(forEntityName: "Entity", in: context) {
+    func addPost(_ model: PostModel) {
+        if let entity = NSEntityDescription.entity(forEntityName: "UploadPosts", in: context) {
             let object = NSManagedObject(entity: entity, insertInto: context)
             object.setValue(model.id, forKey: "id")
             object.setValue(model.data, forKey: "imageData")
+            object.setValue(model.time, forKey: "time")
             do {
                 try context.save()
-                likedIds.append(model.id)
+                postsIds.append(model.id)
             } catch {
                 print("Ошибка при сохранении данных: \(error)")
             }
@@ -86,8 +82,8 @@ class LikeManager {
     
     
     
-    func removeLike(_ model: AnimalCellModel) {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Entity")
+    func removePost(_ model: PostModel) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "UploadPosts")
         fetchRequest.predicate = NSPredicate(format: "id == %@", model.id)
 
         do {
@@ -98,7 +94,7 @@ class LikeManager {
                 }
                 do {
                     try context.save()
-                    likedIds.removeAll(where: { $0 == model.id })
+                    postsIds.removeAll(where: { $0 == model.id })
                 } catch {
                     print("Ошибка при сохранении после удаления: \(error)")
                 }

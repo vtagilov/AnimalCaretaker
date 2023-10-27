@@ -21,6 +21,12 @@ struct AnimalCellModel {
     let data: Data
 }
 
+struct PostModel {
+    let id: Int
+    let data: Data
+    let time: Date
+}
+
 
 enum AnimalType {
     case cats
