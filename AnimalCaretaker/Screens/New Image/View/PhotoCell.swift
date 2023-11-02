@@ -34,13 +34,13 @@ class PhotoCell: UICollectionViewCell {
     func configureCameraCell() {
         let image = UIImage(systemName: "camera")!
         imageView.tintColor = .lightGray
-        configureCell(image)
+        imageView.image = image
         imageView.contentMode = .scaleAspectFit
     }
     
     
     private func configureUI() {
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .bottom
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
     }

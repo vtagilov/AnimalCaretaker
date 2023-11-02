@@ -35,7 +35,6 @@ class NewImageVC: UIViewController {
     
     
     private func confugureUI() {
-        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
@@ -92,8 +91,10 @@ extension NewImageVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
             cell.configureCell(UIImage(systemName: "camera")!)
             cell.configureCameraCell()
             return cell
+        } else if indexPath.section == 1 {
+            cell.configureCell(imagesFromGallery[indexPath.row])
+            return cell
         }
-        cell.configureCell(imagesFromGallery[indexPath.row])
         return cell
     }
     

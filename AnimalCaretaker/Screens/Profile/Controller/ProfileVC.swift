@@ -93,7 +93,6 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         if let cell = tableView.dequeueReusableCell(withIdentifier: "AnimalCell", for: indexPath) as? AnimalCell {
             
             if segmentControl.selectedSegmentIndex == 0 {
@@ -117,7 +116,6 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let oneImageVC: OneImageVC
-        print(indexPath.section)
         if segmentControl.selectedSegmentIndex == 0 {
             let model = animalPostedModels[indexPath.row]
             oneImageVC = OneImageVC(model)
@@ -128,7 +126,6 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
             let model = animalLikedModels[animalLikedModels.count - indexPath.row - 1]
             oneImageVC = OneImageVC(indexPath.row, model, likeManager.isLiked(model))
             oneImageVC.delegate = self
-            
         }
         
         UIView.animate(withDuration: 0.2) {

@@ -19,6 +19,7 @@ class ProfileInfoView: UIView {
     var lastName: String?
     
     let likeManager = LikeManager()
+    let postManager = PostsManager()
     let profileManager = ProfileManager()
     
     var delegate: ProfileInfoViewDelegate?
@@ -44,19 +45,16 @@ class ProfileInfoView: UIView {
     
     func updateCounterLabels() {
         likeCounterLabel.text = "Liked posts\n" + String(likeManager.getModels().count)
-        postsCounterLabel.text = "Posts\n" + String(0)
+        postsCounterLabel.text = "Posts\n" + String(postManager.getModels().count)
     }
     
     
     
     private func configureUI() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        
         updateCounterLabels()
-        
         nickTextField.makeProfileNameField(32)
         nickTextField.delegate = self
-        
         profileImageView.makeProfileImage()
     }
     

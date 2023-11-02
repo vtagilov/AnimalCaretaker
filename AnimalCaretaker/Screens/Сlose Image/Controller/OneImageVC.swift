@@ -62,7 +62,6 @@ class OneImageVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(imageView.image?.size)
         configureUI()
         configureConstraints()
     }
@@ -115,6 +114,7 @@ class OneImageVC: UIViewController {
     private func setPostButton() {
         postButton.isHidden = false
         postButton.setTitle("Post", for: .normal)
+        postButton.setTitleColor(.gray, for: .highlighted)
         postButton.titleLabel?.font = .boldSystemFont(ofSize: 32)
         postButton.addTarget(self, action: #selector(postButtonAction), for: .touchUpInside)
         postButton.translatesAutoresizingMaskIntoConstraints = false
@@ -125,6 +125,7 @@ class OneImageVC: UIViewController {
     
     @objc func postButtonAction() {
         newImageDelegate?.postAction(postModel!)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc func deleteButtonAction() {

@@ -29,7 +29,6 @@ class PostsManager {
         reloadModels()
         var postModels = [PostModel]()
         for model in models {
-//            let image = UIImage(data: model.data)!
             postModels.append(PostModel(id: model.id, data: model.data, time: model.time))
         }
         return postModels
@@ -59,17 +58,12 @@ class PostsManager {
     
     
     
-//    func isLiked(_ model: AnimalCellModel) -> Bool {
-//        imageIds.contains(model.id)
-//    }
-    
-    
-    
     func addPost(_ model: PostModel) {
         if let entity = NSEntityDescription.entity(forEntityName: "UploadPosts", in: context) {
             let object = NSManagedObject(entity: entity, insertInto: context)
+            let data = compressImageData(model.data)
             object.setValue(model.id, forKey: "id")
-            object.setValue(model.data, forKey: "imageData")
+            object.setValue(data, forKey: "imageData")
             object.setValue(model.time, forKey: "time")
             do {
                 try context.save()
@@ -85,7 +79,7 @@ class PostsManager {
     func removePost(_ model: PostModel) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "UploadPosts")
         fetchRequest.predicate = NSPredicate(format: "id == %@", model.id)
-
+        
         do {
             let result = try context.fetch(fetchRequest)
             if let entities = result as? [NSManagedObject] {
@@ -105,5 +99,21 @@ class PostsManager {
     }
     
     
-
+    private func compressImageData(_ data: Data) -> Data {
+        if let image = UIImage(data: data) {
+            guard let data = image.jpegData(compressionQuality: 1.0) else {
+                return Data()
+            }
+            
+            let dataCount = data.count
+            let maxCount = 1000000
+            let multiplayer: CGFloat = CGFloat(maxCount) / CGFloat(dataCount) / 5
+            
+            if let compressedImageData = image.jpegData(compressionQuality: multiplayer) {
+                return compressedImageData
+            }
+        }
+        return Data()
+    }
+    
 }

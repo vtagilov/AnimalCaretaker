@@ -65,8 +65,11 @@ class CustomNavigationController: UINavigationController {
     
     
     private func configureUI() {
-        backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        navigationBar.backgroundColor = .black
         
+        backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+            
+        titleLabel.textColor = .white
         titleLabel.textAlignment = .left
         titleLabel.text = "gram"
         titleLabel.font = .boldSystemFont(ofSize: 32)

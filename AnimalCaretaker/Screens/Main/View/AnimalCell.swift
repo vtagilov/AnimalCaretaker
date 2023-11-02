@@ -14,6 +14,8 @@ class AnimalCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureUI()
+        setConstraints()
     }
     
     
@@ -24,8 +26,6 @@ class AnimalCell: UITableViewCell {
     
     
     func configureCell(_ animalModel: AnimalCellModel) {
-        configureUI()
-        setConstraints()
         self.animalView.image = animalModel.image
         self.animalModel = animalModel
         likeButton.isHidden = false
@@ -33,11 +33,15 @@ class AnimalCell: UITableViewCell {
     
     
     func configureCell(_ model: PostModel) {
-        configureUI()
-        setConstraints()
-        self.animalView.image = UIImage(data: model.data)
         self.postModel = model
         likeButton.isHidden = true
+        var image: UIImage? = nil
+        DispatchQueue.global(qos: .background).async {
+            image = UIImage(data: model.data)
+            DispatchQueue.main.async {
+                self.animalView.image = image
+            }
+        }
     }
     
     
@@ -48,7 +52,7 @@ class AnimalCell: UITableViewCell {
     
     
     private func configureUI() {
-        self.backgroundColor = .none
+        self.backgroundColor = .black
         self.selectionStyle = .none
         
         animalView.contentMode = .scaleAspectFill

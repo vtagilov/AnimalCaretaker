@@ -45,7 +45,7 @@ class MainVC: UIViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(tableViewRefreshControl), for: .valueChanged)
         tableView.refreshControl = refreshControl
-        
+        tableView.backgroundColor = .black
         tableView.register(AnimalCell.self, forCellReuseIdentifier: "AnimalCell")
         tableView.delegate = self
         tableView.dataSource = self

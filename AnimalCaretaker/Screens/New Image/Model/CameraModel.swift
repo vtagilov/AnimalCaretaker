@@ -27,8 +27,10 @@ extension NewImageVC: UIImagePickerControllerDelegate & UINavigationControllerDe
         let asset = allPhotos[index]
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = true
+        requestOptions.deliveryMode = .highQualityFormat
+        requestOptions.resizeMode = .exact
         var image = UIImage()
-        PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: .max, height: .max), contentMode: .aspectFit, options: requestOptions) { (foundImage, _) in
+        PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: 1000, height: 1000), contentMode: .aspectFit, options: requestOptions) { (foundImage, _) in
             if let foundImage = foundImage {
                 image = foundImage
             }
@@ -41,14 +43,16 @@ extension NewImageVC: UIImagePickerControllerDelegate & UINavigationControllerDe
     func getAllPhotosFromGallery() {
         let fetchOptions = PHFetchOptions()
         let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-        
         for index in 0..<allPhotos.count {
             let asset = allPhotos[index]
             let requestOptions = PHImageRequestOptions()
             requestOptions.isSynchronous = true
-            PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFit, options: requestOptions) { (image, _) in
+            PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: 1000, height: 1000), contentMode: .aspectFit, options: requestOptions) { (image, _) in
                 if let image = image {
                     self.imagesFromGallery.append(image)
+                }
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
                 }
             }
         }
@@ -90,8 +94,4 @@ extension NewImageVC: UIImagePickerControllerDelegate & UINavigationControllerDe
         present(alert, animated: true, completion: nil)
     }
     
-
-    
-    
-
 }
