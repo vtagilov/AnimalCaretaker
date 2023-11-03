@@ -17,7 +17,7 @@ class CustomTabBarController: UITabBarController {
             CustomNavigationController(rootViewController: ProfileVC())
         ]
         configure()
-        
+        self.delegate = self
 
     }
     
@@ -29,4 +29,19 @@ class CustomTabBarController: UITabBarController {
         tabBar.backgroundColor = UIColor.black
     }
     
+}
+
+
+
+extension CustomTabBarController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController) {
+            if selectedIndex == self.selectedIndex {
+                let navController = viewController as! CustomNavigationController
+                let _ = navController.popViewController(animated: true)
+                return false
+            }
+        }
+        return true
+    }
 }

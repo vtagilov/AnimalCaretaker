@@ -21,33 +21,24 @@ extension NewImageVC: UIImagePickerControllerDelegate & UINavigationControllerDe
     
     
     
-    func getPhotoFromGallery(_ index: Int) -> UIImage {
+    func getPhotosFromGallery() {
         let fetchOptions = PHFetchOptions()
         let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-        let asset = allPhotos[index]
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.isSynchronous = true
-        requestOptions.deliveryMode = .highQualityFormat
-        requestOptions.resizeMode = .exact
-        var image = UIImage()
-        PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: 1000, height: 1000), contentMode: .aspectFit, options: requestOptions) { (foundImage, _) in
-            if let foundImage = foundImage {
-                image = foundImage
-            }
+        let loadedCount = imagesFromGallery.count
+        let willLoadCount = (allPhotos.count > 30 + loadedCount) ? 30 + loadedCount : allPhotos.count
+        let startIndex = ( allPhotos.count - loadedCount - willLoadCount ) > 0 ? ( allPhotos.count - loadedCount - willLoadCount ) : 0
+        if startIndex + willLoadCount == loadedCount {
+            print("all photos loaded")
+            return
         }
-        return image
-    }
-    
-    
-    
-    func getAllPhotosFromGallery() {
-        let fetchOptions = PHFetchOptions()
-        let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-        for index in 0..<allPhotos.count {
+//        проверить не много ли загружаю
+        
+        print("update ", startIndex ..< startIndex + willLoadCount)
+        for index in startIndex ..< startIndex + willLoadCount {
             let asset = allPhotos[index]
             let requestOptions = PHImageRequestOptions()
             requestOptions.isSynchronous = true
-            PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: 1000, height: 1000), contentMode: .aspectFit, options: requestOptions) { (image, _) in
+            PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: 1000, height: 1000), contentMode: .aspectFill, options: requestOptions) { (image, _) in
                 if let image = image {
                     self.imagesFromGallery.append(image)
                 }
@@ -56,6 +47,7 @@ extension NewImageVC: UIImagePickerControllerDelegate & UINavigationControllerDe
                 }
             }
         }
+        return
     }
     
     
@@ -64,20 +56,20 @@ extension NewImageVC: UIImagePickerControllerDelegate & UINavigationControllerDe
         let status = PHPhotoLibrary.authorizationStatus()
         switch status {
         case .authorized:
-            getAllPhotosFromGallery()
+            getPhotosFromGallery()
             break
         case .denied, .restricted:
             showSettingsAlert()
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization { (status) in
                 if status == .authorized {
-                    self.getAllPhotosFromGallery()
+                    self.getPhotosFromGallery()
                 } else {
                     self.showSettingsAlert()
                 }
             }
         case .limited:
-            getAllPhotosFromGallery()
+            getPhotosFromGallery()
         @unknown default:
             break
         }

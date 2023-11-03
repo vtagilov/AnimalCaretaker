@@ -18,7 +18,7 @@ class NewImageVC: UIViewController {
     var collectionView: UICollectionView!
     
     var imagesFromGallery = [UIImage]()
-    
+    let semaphore = DispatchSemaphore(value: 1)
     let postsManager = PostsManager()
     
     
@@ -70,7 +70,7 @@ extension NewImageVC {
 
 
 //MARK: - UICollectionView Delegate & DataSource
-extension NewImageVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension NewImageVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int { 2 }
     
@@ -112,7 +112,7 @@ extension NewImageVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
             takePhoto()
             return
         }
-        let image = getPhotoFromGallery(indexPath.row)
+        let image = imagesFromGallery[indexPath.row]
         let id = (postsManager.postsIds.max() ?? 0) + 1
         let postModel = PostModel(id: id, data: image.pngData()!, time: Date())
         let oneImageVC = OneImageVC(postModel)
@@ -125,6 +125,21 @@ extension NewImageVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == imagesFromGallery.count - 1 {
+            if semaphore.wait(timeout: .now()) == .success {
+                defer {
+                    semaphore.signal()
+                }
+                
+                DispatchQueue.global(qos: .default).async {
+                    self.getPhotosFromGallery()
+                }
+                collectionView.reloadData()
+                
+            }
+        }
+    }
     
 }
 

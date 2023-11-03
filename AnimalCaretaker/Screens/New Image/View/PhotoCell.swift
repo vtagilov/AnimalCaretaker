@@ -40,7 +40,7 @@ class PhotoCell: UICollectionViewCell {
     
     
     private func configureUI() {
-        imageView.contentMode = .bottom
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
     }

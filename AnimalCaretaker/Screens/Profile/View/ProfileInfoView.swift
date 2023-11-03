@@ -123,7 +123,10 @@ extension ProfileInfoView: UITextFieldDelegate {
     private func textFieldAlert() {
         nickTextField.text = lastName
         let alert = UIAlertController(title: "Enter your nickname", message: "Nickname must constains some letters", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
+            self.nickTextField.becomeFirstResponder()
+        })
+        
         alert.addAction(okAction)
         delegate?.presentTextFieldAlert(alert)
     }
